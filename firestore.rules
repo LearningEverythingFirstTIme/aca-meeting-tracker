@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isCurrentUser(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function ownsDoc() {
+      return isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    function createsOwnDoc() {
+      return isCurrentUser(request.resource.data.userId);
+    }
+
+    function updatesOwnDoc() {
+      return ownsDoc() && request.resource.data.userId == resource.data.userId;
+    }
+
+    function isTrackedCollection(collection) {
+      return ["meetings", "checkins", "transactions", "dailyInventory"].hasAny([collection]);
+    }
+
+    match /{collection}/{docId} {
+      allow read, delete: if isTrackedCollection(collection) && ownsDoc();
+      allow create: if isTrackedCollection(collection) && createsOwnDoc();
+      allow update: if isTrackedCollection(collection) && updatesOwnDoc();
+    }
+
+    match /userProfiles/{userId} {
+      allow read: if isCurrentUser(userId);
+      allow create, update: if isCurrentUser(userId)
+        && request.resource.data.userId == userId;
+      allow delete: if false;
+    }
+  }
+}
