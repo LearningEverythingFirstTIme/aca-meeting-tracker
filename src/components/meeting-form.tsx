@@ -51,7 +51,7 @@ export const MeetingForm = ({
 
     const parsed = meetingSchema.safeParse(values);
     if (!parsed.success) {
-      const errMsg = parsed.error.issues[0]?.message ?? "INPUT VALIDATION FAILED";
+      const errMsg = parsed.error.issues[0]?.message ?? "Input validation failed";
       setError(errMsg);
       setShakeKey(k => k + 1);
       return;
@@ -64,7 +64,7 @@ export const MeetingForm = ({
         setValues({ name: "", location: "", time: "" });
       }
     } catch {
-      setError("WRITE ERROR: COULD NOT SAVE");
+      setError("Could not save meeting");
       setShakeKey(k => k + 1);
     } finally {
       setSubmitting(false);
@@ -79,52 +79,52 @@ export const MeetingForm = ({
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: shakeKey > 0 ? 0.3 : 0.3 }}
       onSubmit={handleSubmit}
-      className="neo-card p-6"
+      className="forest-card p-6"
     >
-      <div className="flex items-center gap-2 mb-5 pb-4 border-b-4 border-black">
+      <div className="flex items-center gap-2 mb-5 pb-4 border-b border-[var(--earth-sand)]">
         <motion.div 
-          className="h-3 w-3 bg-[var(--butter)] border-3 border-black"
+          className="h-3 w-3 rounded-full bg-[var(--butter)]"
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         />
-        <span className="neo-title text-sm">MEETING DATA</span>
+        <span className="font-semibold text-sm text-[var(--forest-deep)]">Meeting Data</span>
       </div>
 
       <motion.div variants={inputVariants} initial="hidden" animate="show" transition={{ delay: 0.05 }}>
-        <label className="neo-label">
-          MEETING NAME
+        <label className="block text-sm font-medium text-[var(--forest-deep)] mb-2">
+          Meeting Name
         </label>
         <input
           value={values.name}
           onChange={(e) => setValues((prev) => ({ ...prev, name: e.target.value }))}
-          placeholder="MORNING SERENITY"
-          className="neo-input neo-input-mint mb-4"
+          placeholder="Morning Serenity"
+          className="forest-input w-full mb-4"
           required
         />
       </motion.div>
 
       <motion.div variants={inputVariants} initial="hidden" animate="show" transition={{ delay: 0.1 }}>
-        <label className="neo-label">
-          LOCATION
+        <label className="block text-sm font-medium text-[var(--forest-deep)] mb-2">
+          Location
         </label>
         <input
           value={values.location}
           onChange={(e) => setValues((prev) => ({ ...prev, location: e.target.value }))}
-          placeholder="COMMUNITY CENTER - ROOM 2"
-          className="neo-input neo-input-coral mb-4"
+          placeholder="Community Center - Room 2"
+          className="forest-input w-full mb-4"
           required
         />
       </motion.div>
 
       <motion.div variants={inputVariants} initial="hidden" animate="show" transition={{ delay: 0.15 }}>
-        <label className="neo-label">
-          TIME
+        <label className="block text-sm font-medium text-[var(--forest-deep)] mb-2">
+          Time
         </label>
         <input
           type="time"
           value={values.time}
           onChange={(e) => setValues((prev) => ({ ...prev, time: e.target.value }))}
-          className="neo-input neo-input-lavender mb-4"
+          className="forest-input w-full mb-4"
           required
         />
       </motion.div>
@@ -136,12 +136,11 @@ export const MeetingForm = ({
             initial="hidden"
             animate="show"
             exit="exit"
-            className="bg-[var(--coral)] border-4 border-black p-4 mb-4"
-            style={{ boxShadow: '6px 6px 0px 0px black' }}
+            className="bg-[var(--coral)] rounded-xl p-4 mb-4"
           >
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 bg-black" />
-              <span className="neo-mono text-xs uppercase text-[var(--black)]">{error}</span>
+              <div className="h-2 w-2 bg-white rounded-full" />
+              <span className="text-xs text-white">{error}</span>
             </div>
           </motion.div>
         )}
@@ -153,19 +152,19 @@ export const MeetingForm = ({
           whileTap={!submitting ? { scale: 0.98 } : {}}
           type="submit"
           disabled={submitting}
-          className="neo-button neo-button-primary flex-1 py-3"
+          className="flex-1 py-3 rounded-full forest-button"
         >
           {submitting ? (
             <span className="flex items-center justify-center gap-2">
               <motion.span 
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                className="inline-block h-3 w-3 border-3 border-black border-t-transparent"
+                className="inline-block h-3 w-3 border-2 border-white border-t-transparent rounded-full"
               />
-              SAVING...
+              Saving...
             </span>
           ) : (
-            `► ${submitLabel.toUpperCase()}`
+            submitLabel
           )}
         </motion.button>
         
@@ -175,9 +174,9 @@ export const MeetingForm = ({
             whileTap={{ scale: 0.98 }}
             type="button"
             onClick={onCancel}
-            className="neo-button flex-1 py-3 bg-[var(--gray-disabled)]"
+            className="flex-1 py-3 rounded-full border border-[var(--earth-sand)] bg-white text-[var(--forest-deep)] font-medium hover:bg-[var(--leaf-dew)] transition-colors"
           >
-            CANCEL
+            Cancel
           </motion.button>
         ) : null}
       </div>

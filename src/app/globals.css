@@ -1,462 +1,536 @@
 @import "tailwindcss";
 
-/* Dark mode configuration - uses class strategy */
-@custom-variant dark (&:where(.dark, .dark *));
+/* ========================================
+   FOREST SANCTUARY DESIGN SYSTEM
+   A tranquil, welcoming space for healing
+   ======================================== */
 
 @layer theme {
   :root {
-    /* Light Mode - Warm Brutalist */
-    --cream: #F5F0E6;
-    --butter: #FFE66D;
-    --coral: #FF6B6B;
-    --mint: #4ECDC4;
-    --lavender: #A78BFA;
-    --sky: #38BDF8;
-    --black: #000000;
-    --white: #FFFFFF;
-    --pink: #FF69B4;
-    --lime: #84CC16;
+    /* Primary Forest Palette */
+    --forest-deep: #1a3d2e;
+    --forest-mid: #2d5a45;
+    --forest-light: #4a7c5e;
+    --forest-pale: #8fbfa3;
     
-    /* Dark Mode - Midnight Brutalist */
-    --cream-dark: #1a1a2e;
-    --butter-dark: #FFD93D;
-    --coral-dark: #FF6B6B;
-    --mint-dark: #6EE7DE;
-    --lavender-dark: #B9A3FA;
-    --sky-dark: #60D0FA;
-    --black-dark: #E8E8E8;
-    --white-dark: #16213e;
-    --pink-dark: #FF85C0;
-    --lime-dark: #9AE635;
+    /* Warm Earth Tones */
+    --earth-bark: #5d4037;
+    --earth-wood: #8d6e63;
+    --earth-sand: #d7ccc8;
+    --earth-cream: #f5f0e8;
+    --earth-warm: #faf6f1;
     
-    /* Gray scale - Light Mode */
-    --gray-muted: #9ca3af;
-    --gray-subtle: #d1d5db;
-    --gray-disabled: #e5e7eb;
+    /* Leaf & Nature Accents */
+    --leaf-sage: #9caf88;
+    --leaf-moss: #7da069;
+    --leaf-fresh: #a8d5ba;
+    --leaf-dew: #c8e6c9;
     
-    /* Gray scale - Dark Mode */
-    --gray-muted-dark: #6b7280;
-    --gray-subtle-dark: #4b5563;
-    --gray-disabled-dark: #374151;
+    /* Sky & Light */
+    --sky-mist: #e8f4f8;
+    --sky-soft: #f0f7f4;
     
-    /* Stat Card Backgrounds - Dark Mode (muted/darker versions) */
-    --stat-mint-dark: #2d5a56;
-    --stat-butter-dark: #8b7355;
-    --stat-lavender-dark: #5a4a7a;
-    --stat-coral-dark: #8b4a4a;
-    --stat-sky-dark: #2d5a7a;
+    /* Accent Colors - Warm & Gentle */
+    --accent-sun: #f4d03f;
+    --accent-sunset: #e8b87d;
+    --accent-rose: #e8b4b4;
+    --accent-lavender: #d4b8e8;
+    --accent-sky: #a8d5e5;
+    
+    /* States */
+    --success: #7da069;
+    --warning: #e8b87d;
+    --error: #d98880;
+    
+    /* Dark Mode - Deep Forest Night */
+    --night-bg: #0f1f18;
+    --night-card: #1a2f24;
+    --night-text: #e8f4f0;
+    --night-muted: #8fa399;
   }
   
   /* Dark mode class-based switching */
   .dark {
-    --cream: var(--cream-dark);
-    --butter: var(--butter-dark);
-    --coral: var(--coral-dark);
-    --mint: var(--mint-dark);
-    --lavender: var(--lavender-dark);
-    --sky: var(--sky-dark);
-    --black: var(--black-dark);
-    --white: var(--white-dark);
-    --pink: var(--pink-dark);
-    --lime: var(--lime-dark);
-    --gray-muted: var(--gray-muted-dark);
-    --gray-subtle: var(--gray-subtle-dark);
-    --gray-disabled: var(--gray-disabled-dark);
+    --forest-deep: #e8f4f0;
+    --forest-mid: #c8e6c9;
+    --forest-light: #8fbfa3;
+    --forest-pale: #4a7c5e;
+    
+    --earth-bark: #d7ccc8;
+    --earth-wood: #a1887f;
+    --earth-sand: #5d4037;
+    --earth-cream: #0f1f18;
+    --earth-warm: #1a2f24;
+    
+    --sky-mist: #1a2f24;
+    --sky-soft: #0f1f18;
   }
+}
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
+
+* {
+  border-radius: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--cream);
-  color: var(--black);
-  font-family: 'Archivo', sans-serif;
-  overflow-x: hidden;
-  background-image: radial-gradient(var(--black) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+  background: linear-gradient(135deg, var(--earth-warm) 0%, var(--sky-soft) 50%, var(--earth-cream) 100%);
+  background-attachment: fixed;
+  color: var(--forest-deep);
+  font-family: 'Nunito', 'Quicksand', system-ui, sans-serif;
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  line-height: 1.6;
 }
 
 .dark body {
-  background-image: radial-gradient(var(--black) 1.5px, transparent 1.5px);
+  background: linear-gradient(135deg, var(--night-bg) 0%, #152a20 50%, var(--night-bg) 100%);
+  color: var(--night-text);
 }
 
+/* Custom Selection */
 ::selection {
-  background: var(--butter);
-  color: var(--black);
+  background: var(--leaf-fresh);
+  color: var(--forest-deep);
 }
 
-@utility neo-card {
-  background: var(--white);
-  border: 4px solid var(--black);
-  box-shadow: 8px 8px 0px 0px var(--black);
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+@utility forest-title {
+  font-family: 'Quicksand', 'Nunito', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-@utility neo-dashboard-stat {
-  display: flex;
-  min-height: 15rem;
-  height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 4px solid var(--black);
-  padding: 1.5rem;
-  box-shadow: 6px 6px 0px 0px var(--black);
+@utility forest-body {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
-@utility neo-card-hover {
-  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
-  
+@utility forest-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================
+   CARDS & CONTAINERS
+   ======================================== */
+
+@utility forest-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  border: 1px solid rgba(143, 191, 163, 0.3);
+  box-shadow: 
+    0 4px 6px -1px rgba(26, 61, 46, 0.05),
+    0 10px 15px -3px rgba(26, 61, 46, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark .forest-card {
+  background: rgba(26, 47, 36, 0.9);
+  border-color: rgba(143, 179, 163, 0.2);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+@utility forest-card-hover {
   &:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 10px 10px 0px 0px var(--black);
-  }
-  
-  &:active {
-    transform: translate(2px, 2px);
-    box-shadow: 4px 4px 0px 0px var(--black);
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+      0 20px 25px -5px rgba(26, 61, 46, 0.1),
+      0 10px 10px -5px rgba(26, 61, 46, 0.04);
   }
 }
 
-@utility neo-button {
-  background: var(--white);
-  border: 3px solid var(--black);
-  box-shadow: 4px 4px 0px 0px var(--black);
-  font-family: 'Archivo Black', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  padding: 0.75rem 1.5rem;
-  cursor: pointer;
-  transition: all 0.1s ease-out;
-  will-change: transform, box-shadow;
-  
-  &:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px 0px var(--black);
-  }
-  
-  &:active {
-    box-shadow: none;
-    transform: translate(4px, 4px);
-  }
-  
-  &:focus-visible {
-    outline: none;
-    box-shadow: 4px 4px 0px 0px var(--black), 0 0 0 3px var(--butter);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: 4px 4px 0px 0px var(--black);
-  }
-}
+/* ========================================
+   BUTTONS
+   ======================================== */
 
-@utility neo-button-primary {
-  background: var(--butter);
-  color: var(--black);
-  
-  &:hover {
-    background: color-mix(in srgb, var(--butter) 85%, var(--black));
-  }
-}
-
-@utility neo-button-success {
-  background: var(--mint);
-  color: var(--black);
-  
-  &:hover {
-    background: color-mix(in srgb, var(--mint) 85%, var(--black));
-  }
-}
-
-@utility neo-button-danger {
-  background: var(--coral);
-  color: var(--white);
-  
-  &:hover {
-    background: color-mix(in srgb, var(--coral) 85%, var(--white));
-  }
-}
-
-@utility neo-button-secondary {
-  background: var(--lavender);
-  color: var(--black);
-  
-  &:hover {
-    background: color-mix(in srgb, var(--lavender) 85%, var(--black));
-  }
-}
-
-@utility neo-input {
-  width: 100%;
-  background: var(--white);
-  border: 3px solid var(--black);
-  padding: 0.75rem 1rem;
-  font-family: 'Archivo', sans-serif;
+/* Forest Button Base */
+.forest-button {
+  background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-light) 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.875rem 2rem;
+  font-family: 'Nunito', sans-serif;
   font-weight: 600;
-  font-size: 0.875rem;
-  transition: all 0.15s ease-out;
-  box-shadow: 4px 4px 0px 0px transparent;
-  
-  &:focus {
-    outline: none;
-    box-shadow: 6px 6px 0px 0px var(--black);
-  }
-  
-  &::placeholder {
-    color: color-mix(in srgb, var(--black) 50%, transparent);
-    font-weight: 500;
-  }
-}
-
-@utility neo-input-mint {
-  background: color-mix(in srgb, var(--mint) 15%, var(--white));
-  
-  &:focus {
-    background: color-mix(in srgb, var(--mint) 25%, var(--white));
-  }
-}
-
-@utility neo-input-coral {
-  background: color-mix(in srgb, var(--coral) 15%, var(--white));
-  
-  &:focus {
-    background: color-mix(in srgb, var(--coral) 25%, var(--white));
-  }
-}
-
-@utility neo-input-lavender {
-  background: color-mix(in srgb, var(--lavender) 15%, var(--white));
-  
-  &:focus {
-    background: color-mix(in srgb, var(--lavender) 25%, var(--white));
-  }
-}
-
-@utility neo-input-sky {
-  background: color-mix(in srgb, var(--sky) 15%, var(--white));
-  
-  &:focus {
-    background: color-mix(in srgb, var(--sky) 25%, var(--white));
-  }
-}
-
-@utility neo-stripe {
-  background: repeating-linear-gradient(
-    45deg,
-    var(--butter),
-    var(--butter) 10px,
-    var(--coral) 10px,
-    var(--coral) 20px
-  );
-}
-
-@utility neo-stripe-mint {
-  background: repeating-linear-gradient(
-    45deg,
-    var(--mint),
-    var(--mint) 10px,
-    #3BA99C 10px,
-    #3BA99C 20px
-  );
-}
-
-@utility neo-stripe-lavender {
-  background: repeating-linear-gradient(
-    45deg,
-    var(--lavender),
-    var(--lavender) 10px,
-    #8B5CF6 10px,
-    #8B5CF6 20px
-  );
-}
-
-@utility neo-label {
-  display: block;
-  font-family: 'Archivo Black', sans-serif;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-  color: var(--black);
-}
-
-@utility neo-badge {
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 6px -1px rgba(26, 61, 46, 0.2),
+    0 2px 4px -1px rgba(26, 61, 46, 0.1);
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  font-family: 'Archivo', sans-serif;
-  font-weight: 700;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.25rem 0.5rem;
-  border: 2px solid var(--black);
-  box-shadow: 2px 2px 0px 0px var(--black);
+  justify-content: center;
 }
 
-@utility neo-dot {
+.forest-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.forest-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 20px -5px rgba(26, 61, 46, 0.3),
+    0 4px 8px -2px rgba(26, 61, 46, 0.2);
+}
+
+.forest-button:hover::before {
+  left: 100%;
+}
+
+.forest-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px -1px rgba(26, 61, 46, 0.2);
+}
+
+/* Forest Button Variants */
+.forest-button-secondary {
+  background: transparent;
+  color: var(--forest-mid);
+  border: 2px solid var(--forest-pale);
+  box-shadow: none;
+}
+
+.forest-button-secondary:hover {
+  background: var(--leaf-dew);
+  border-color: var(--forest-light);
+}
+
+.forest-button-accent {
+  background: linear-gradient(135deg, var(--accent-sun) 0%, var(--accent-sunset) 100%);
+  color: var(--forest-deep);
+}
+
+/* ========================================
+   INPUTS
+   ======================================== */
+
+/* Forest Input Base */
+.forest-input {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--earth-sand);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  color: var(--forest-deep);
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(26, 61, 46, 0.05);
+}
+
+.forest-input:focus {
+  outline: none;
+  border-color: var(--forest-light);
+  box-shadow: 
+    0 0 0 4px rgba(143, 191, 163, 0.2),
+    inset 0 2px 4px rgba(26, 61, 46, 0.05);
+}
+
+.forest-input::placeholder {
+  color: var(--earth-wood);
+  opacity: 0.6;
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+
+@utility forest-nav {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(143, 191, 163, 0.2);
+  box-shadow: 0 1px 3px rgba(26, 61, 46, 0.05);
+}
+
+.dark .forest-nav {
+  background: rgba(15, 31, 24, 0.95);
+  border-color: rgba(143, 179, 163, 0.15);
+}
+
+/* Forest Nav Item */
+.forest-nav-item {
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--forest-mid);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.forest-nav-item:hover {
+  background: var(--leaf-dew);
+  color: var(--forest-deep);
+}
+
+.forest-nav-item-active {
+  background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-light) 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(26, 61, 46, 0.25);
+}
+
+/* ========================================
+   GRASS SWAY ANIMATION
+   ======================================== */
+
+@keyframes grassSway {
+  0%, 100% {
+    transform: rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: rotate(2deg) translateX(2px);
+  }
+  50% {
+    transform: rotate(0deg) translateX(0);
+  }
+  75% {
+    transform: rotate(-2deg) translateX(-2px);
+  }
+}
+
+@keyframes grassSwayGentle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(1.5deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@utility animate-grass-sway {
+  animation: grassSway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@utility animate-grass-sway-gentle {
+  animation: grassSwayGentle 6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@utility animate-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+@utility animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* ========================================
+   DECORATIVE ELEMENTS
+   ======================================== */
+
+@utility forest-leaf {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--leaf-sage) 0%, var(--leaf-moss) 100%);
+  border-radius: 0 50% 0 50%;
+  transform: rotate(-45deg);
+  box-shadow: 2px 2px 8px rgba(26, 61, 46, 0.15);
+}
+
+@utility forest-petal {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, var(--accent-rose) 0%, #f5d5d5 100%);
+  border-radius: 50% 0 50% 0;
+  transform: rotate(45deg);
+}
+
+@utility forest-glow {
+  box-shadow: 
+    0 0 20px rgba(143, 191, 163, 0.4),
+    0 0 40px rgba(143, 191, 163, 0.2),
+    0 0 60px rgba(143, 191, 163, 0.1);
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-  border: 2px solid var(--black);
-  border-radius: 0;
-  
-  &.active {
-    background: var(--mint);
-  }
-  
-  &.inactive {
-    background: color-mix(in srgb, var(--black) 40%, transparent);
-  }
 }
 
-@utility neo-title {
-  font-family: 'Archivo Black', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 0.9;
+::-webkit-scrollbar-track {
+  background: var(--earth-cream);
+  border-radius: 4px;
 }
 
-@utility neo-mono {
-  font-family: 'Courier New', monospace;
-  font-weight: 700;
-  letter-spacing: -0.05em;
+::-webkit-scrollbar-thumb {
+  background: var(--forest-pale);
+  border-radius: 4px;
 }
 
-@utility neo-section-header {
-  display: flex;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--forest-light);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--night-card);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--forest-pale);
+}
+
+/* ========================================
+   STAT CARDS
+   ======================================== */
+
+@utility forest-stat {
+  background: linear-gradient(135deg, var(--leaf-dew) 0%, var(--sky-soft) 100%);
+  border-radius: 24px;
+  padding: 1.5rem;
+  border: 1px solid rgba(143, 191, 163, 0.3);
+  box-shadow: 
+    0 4px 6px -1px rgba(26, 61, 46, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+@utility forest-stat-mint {
+  background: linear-gradient(135deg, var(--leaf-fresh) 0%, var(--leaf-dew) 100%);
+}
+
+@utility forest-stat-sun {
+  background: linear-gradient(135deg, var(--accent-sun) 0%, var(--accent-sunset) 100%);
+}
+
+@utility forest-stat-lavender {
+  background: linear-gradient(135deg, var(--accent-lavender) 0%, #e8d5f2 100%);
+}
+
+@utility forest-stat-rose {
+  background: linear-gradient(135deg, var(--accent-rose) 0%, #f5e0e0 100%);
+}
+
+/* ========================================
+   BADGES & CHIPS
+   ======================================== */
+
+@utility forest-badge {
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--leaf-dew);
+  color: var(--forest-mid);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ========================================
+   SECTION HEADERS
+   ======================================== */
+
+@utility forest-section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 4px solid var(--black);
+  border-bottom: 2px solid var(--earth-sand);
 }
 
-/* 
-  VISUAL STANDARDS DOCUMENTATION:
-  
-  Borders:
-    - border-4: Main cards (neo-card), page headers, stat cards
-    - border-3: Buttons (neo-button), inputs (neo-input), inner sections
-    - border-2: Badges (neo-badge), small chips, decorative elements
-  
-  Shadows (box-shadow):
-    - 12px: Modals (centered overlays)
-    - 10px: Highlighted/success states, special cards
-    - 8px: Main cards (neo-card), page headers
-    - 6px: Error banners, dashboard layout header, inner cards
-    - 4px: Buttons (neo-button), form elements
-    - 3px: Nav items (when inactive)
-    - 2px: Small action buttons (edit/delete icons), badges
-  
-  Padding in cards:
-    - p-6: Standard card padding
-    - p-4: Compact cards (date browser)
-    - p-8: Auth forms, error states
-  
-  Section headers pattern:
-    <div className="flex items-center gap-2 mb-4 pb-3 border-b-4 border-black">
-      <span className="neo-title text-sm text-[var(--accent)]">►</span>
-      <span className="neo-title text-sm">TITLE</span>
-    </div>
-*/
+/* ========================================
+   DARK MODE TOGGLE
+   ======================================== */
 
-@keyframes wobble {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-3deg); }
-  75% { transform: rotate(3deg); }
+/* Forest Theme Toggle */
+.forest-theme-toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--earth-cream);
+  border: 2px solid var(--earth-sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
-  20%, 40%, 60%, 80% { transform: translateX(4px); }
+.forest-theme-toggle:hover {
+  background: var(--leaf-dew);
+  border-color: var(--forest-pale);
+  transform: rotate(15deg);
 }
 
-@keyframes pop-in {
-  0% { transform: scale(0.8); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes stamp {
-  0% { transform: scale(1.5); opacity: 0; }
-  60% { transform: scale(0.95); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-@keyframes slide-up {
-  0% { transform: translateY(20px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes slide-down {
-  0% { transform: translateY(-20px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes pulse-bg {
-  0%, 100% { background-color: var(--white); }
-  50% { background-color: #FFF9C4; }
-}
-
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-@keyframes bounce-xy {
-  0%, 100% { transform: translate(0, 0); }
-  25% { transform: translate(-2px, -2px); }
-  50% { transform: translate(2px, -2px); }
-  75% { transform: translate(-2px, 2px); }
-}
-
-@utility animate-wobble {
-  animation: wobble 0.5s ease-in-out;
-}
-
-@utility animate-shake {
-  animation: shake 0.4s ease-out;
-}
-
-@utility animate-pop-in {
-  animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@utility animate-stamp {
-  animation: stamp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@utility animate-slide-up {
-  animation: slide-up 0.4s ease-out forwards;
-}
-
-@utility animate-slide-down {
-  animation: slide-down 0.4s ease-out forwards;
-}
-
-@utility animate-pulse-bg {
-  animation: pulse-bg 2s ease-in-out infinite;
-}
-
-@utility animate-spin-slow {
-  animation: spin-slow 3s linear infinite;
-}
-
-@utility animate-blink {
-  animation: blink 1s step-end infinite;
-}
-
-@utility animate-bounce-xy {
-  animation: bounce-xy 0.5s ease-in-out;
-}
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -465,5 +539,25 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible styles */
+:focus-visible {
+  outline: 3px solid var(--forest-light);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .forest-card {
+    border-radius: 20px;
+  }
+  
+  .forest-button {
+    padding: 0.75rem 1.5rem;
   }
 }

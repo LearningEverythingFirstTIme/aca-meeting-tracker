@@ -3,14 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Home, DollarSign, BookOpen, LogOut, Heart, ClipboardList, Sun, Moon } from "lucide-react";
+import { Home, DollarSign, BookOpen, LogOut, Heart, ClipboardList, Sun, Moon, Leaf } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 import { useTheme } from "@/components/theme-provider";
+import { useEffect, useState } from "react";
 
 export const Navigation = () => {
   const pathname = usePathname();
   const { logout, user } = useAuth();
   const { resolvedTheme, toggleTheme } = useTheme();
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const navItems = [
     { href: "/", label: "Meetings", icon: Home },
@@ -19,153 +21,186 @@ export const Navigation = () => {
     { href: "/literature", label: "Literature", icon: BookOpen },
   ];
 
+  // Grass sway effect on mouse move
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  const getSwayStyle = (index: number) => {
+    const offset = index * 50;
+    const distanceFromMouse = Math.abs(mousePosition.x - offset);
+    const swayAmount = Math.max(0, 1 - distanceFromMouse / 500) * 5;
+    return {
+      transform: `rotate(${swayAmount}deg)`,
+    };
+  };
+
   return (
-    <div className="bg-[var(--white)] border-b-4 border-black sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+    <div className="forest-nav sticky top-0 z-50">
+      {/* Decorative grass blades that sway */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 overflow-visible pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute bottom-0 w-1 bg-gradient-to-t from-[var(--forest-mid)] to-[var(--leaf-sage)] rounded-t-full opacity-30"
+            style={{
+              left: `${i * 5}%`,
+              height: `${20 + Math.random() * 30}px`,
+              transformOrigin: "bottom center",
+            }}
+            animate={{
+              rotate: typeof window !== "undefined" ? [0, (mousePosition.x - window.innerWidth / 2) / 100, 0] : 0,
+            }}
+            transition={{ duration: 2, ease: "easeInOut" }}
+          />
+        ))}
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop & Tablet Navigation */}
         <div className="hidden md:flex items-center justify-between py-4 gap-4">
-          {/* Left: Main Nav Items */}
-          <div className="flex items-center gap-4">
-            {navItems.map((item) => {
+          {/* Left: Logo & Main Nav Items */}
+          <div className="flex items-center gap-3">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 mr-4">
+              <motion.div
+                whileHover={{ rotate: 360, scale: 1.1 }}
+                transition={{ duration: 0.6 }}
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--forest-mid)] to-[var(--leaf-moss)] flex items-center justify-center shadow-lg"
+              >
+                <Leaf className="w-5 h-5 text-white" />
+              </motion.div>
+              <span className="forest-title text-xl text-[var(--forest-deep)] hidden lg:block">
+                Forest Sanctuary
+              </span>
+            </Link>
+
+            {navItems.map((item, index) => {
               const isActive = pathname === item.href;
               return (
                 <Link key={item.href} href={item.href}>
                   <motion.div
-                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`flex items-center gap-2.5 px-4 py-2.5 border-3 border-black neo-title text-sm transition-colors ${
+                    className={`flex items-center gap-2 px-4 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 ${
                       isActive 
-                        ? "bg-[var(--butter)] text-[var(--black)]" 
-                        : "bg-[var(--white)] text-[var(--black)] hover:bg-[var(--cream)]"
+                        ? "bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)] text-white shadow-lg shadow-[var(--forest-mid)]/30" 
+                        : "text-[var(--forest-mid)] hover:bg-[var(--leaf-dew)]"
                     }`}
-                    style={{ boxShadow: isActive ? 'none' : '4px 4px 0px 0px black' }}
+                    style={getSwayStyle(index)}
                   >
-                    <item.icon size={18} strokeWidth={3} />
+                    <item.icon size={18} strokeWidth={2.5} />
                     <span className="hidden lg:inline">{item.label}</span>
-                    <span className="lg:hidden">{item.label.slice(0, 3)}</span>
                   </motion.div>
                 </Link>
               );
             })}
           </div>
           
-          {/* Right: Theme, Help, Email, Logout */}
-          <div className="flex items-center gap-4 shrink-0">
+          {/* Right: Theme, Help, Logout */}
+          <div className="flex items-center gap-3">
             {/* Theme Toggle */}
             <motion.button
-              whileHover={{ scale: 1.05, rotate: resolvedTheme === "dark" ? 15 : -15 }}
+              whileHover={{ scale: 1.1, rotate: 15 }}
               whileTap={{ scale: 0.95 }}
-              type="button"
               onClick={toggleTheme}
-              className="flex items-center justify-center w-10 h-10 border-3 border-black bg-[var(--butter)]"
-              style={{ boxShadow: '4px 4px 0px 0px black' }}
-              title={`Theme: ${resolvedTheme}`}
+              className="w-10 h-10 rounded-full bg-[var(--earth-cream)] border-2 border-[var(--earth-sand)] flex items-center justify-center text-[var(--forest-mid)] hover:bg-[var(--leaf-dew)] transition-colors"
             >
               {resolvedTheme === "dark" ? (
-                <Moon size={18} strokeWidth={3} className="text-[var(--black)]" />
+                <Moon size={18} />
               ) : (
-                <Sun size={18} strokeWidth={3} className="text-[var(--black)]" />
+                <Sun size={18} />
               )}
             </motion.button>
 
             {/* Help Button */}
             <Link href="/help">
               <motion.div
-                whileHover={{ scale: 1.03, y: -1 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-2.5 px-5 py-2.5 border-3 border-black neo-title text-sm bg-[var(--coral)] text-[var(--black)] hover:bg-[#FF6B6B]"
-                style={{ boxShadow: '4px 4px 0px 0px black' }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[var(--accent-rose)] to-[var(--accent-sunset)] text-[var(--forest-deep)] font-semibold text-sm shadow-md hover:shadow-lg transition-shadow"
               >
-                <Heart size={18} strokeWidth={3} fill="var(--black)" />
-                <span className="hidden lg:inline">24/7 HELP</span>
-                <span className="lg:hidden">HELP</span>
+                <Heart size={18} fill="currentColor" />
+                <span className="hidden lg:inline">24/7 Help</span>
               </motion.div>
             </Link>
             
-            {/* User Email - Desktop Only */}
-            <span className="neo-mono text-xs text-[var(--black)] hidden xl:block max-w-[160px] truncate">
-              {user?.email}
-            </span>
-            
             {/* Logout Button */}
             <motion.button
-              whileHover={{ scale: 1.05, rotate: -2 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              type="button"
               onClick={() => void logout()}
-              className="neo-button neo-button-danger flex items-center gap-2.5 text-sm py-2.5 px-5"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-full border-2 border-[var(--earth-sand)] text-[var(--forest-mid)] font-semibold text-sm hover:bg-[var(--earth-sand)] transition-colors"
             >
-              <LogOut size={18} strokeWidth={3} />
-              <span className="hidden lg:inline">LOGOUT</span>
+              <LogOut size={18} />
+              <span className="hidden lg:inline">Logout</span>
             </motion.button>
           </div>
         </div>
 
-        {/* Mobile Navigation - All 4 icons + Help + Logout */}
-        <div className="flex md:hidden items-center justify-between py-3 gap-2">
-          {/* Left: All 5 nav items as icons */}
-          <div className="flex items-center gap-2">
+        {/* Mobile Navigation */}
+        <div className="flex md:hidden items-center justify-between py-3">
+          {/* Logo */}
+          <Link href="/">
+            <motion.div
+              whileTap={{ scale: 0.95 }}
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--forest-mid)] to-[var(--leaf-moss)] flex items-center justify-center"
+            >
+              <Leaf className="w-5 h-5 text-white" />
+            </motion.div>
+          </Link>
+
+          {/* Nav Items */}
+          <div className="flex items-center gap-1.5">
             {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link key={item.href} href={item.href}>
                   <motion.div
-                    whileTap={{ scale: 0.95 }}
-                    className={`flex items-center justify-center w-11 h-11 border-3 border-black ${
+                    whileTap={{ scale: 0.9 }}
+                    className={`w-11 h-11 rounded-full flex items-center justify-center ${
                       isActive 
-                        ? "bg-[var(--butter)] text-[var(--black)]" 
-                        : "bg-[var(--white)] text-[var(--black)]"
+                        ? "bg-gradient-to-br from-[var(--forest-mid)] to-[var(--forest-light)] text-white shadow-md" 
+                        : "bg-[var(--earth-cream)] text-[var(--forest-mid)]"
                     }`}
-                    style={{ boxShadow: isActive ? 'none' : '3px 3px 0px 0px black' }}
-                    title={item.label}
                   >
-                    <item.icon size={22} strokeWidth={3} />
+                    <item.icon size={20} strokeWidth={2.5} />
                   </motion.div>
                 </Link>
               );
             })}
           </div>
 
-          {/* Right: Theme, Help & Logout */}
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Theme Toggle */}
+          {/* Right Actions */}
+          <div className="flex items-center gap-1.5">
             <motion.button
-              whileTap={{ scale: 0.95 }}
-              type="button"
+              whileTap={{ scale: 0.9 }}
               onClick={toggleTheme}
-              className="flex items-center justify-center w-11 h-11 border-3 border-black bg-[var(--butter)]"
-              style={{ boxShadow: '3px 3px 0px 0px black' }}
-              title={`Theme: ${resolvedTheme}`}
+              className="w-10 h-10 rounded-full bg-[var(--earth-cream)] flex items-center justify-center text-[var(--forest-mid)]"
             >
-              {resolvedTheme === "dark" ? (
-                <Moon size={22} strokeWidth={3} className="text-[var(--black)]" />
-              ) : (
-                <Sun size={22} strokeWidth={3} className="text-[var(--black)]" />
-              )}
+              {resolvedTheme === "dark" ? <Moon size={18} /> : <Sun size={18} />}
             </motion.button>
 
-            {/* Help Button */}
             <Link href="/help">
               <motion.div
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center w-11 h-11 border-3 border-black bg-[var(--coral)]"
-                style={{ boxShadow: '3px 3px 0px 0px black' }}
-                title="24/7 Help"
+                whileTap={{ scale: 0.9 }}
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--accent-rose)] to-[var(--accent-sunset)] flex items-center justify-center"
               >
-                <Heart size={22} strokeWidth={3} fill="black" />
+                <Heart size={18} fill="white" className="text-white" />
               </motion.div>
             </Link>
 
-            {/* Logout Button */}
             <motion.button
-              whileTap={{ scale: 0.95 }}
-              type="button"
+              whileTap={{ scale: 0.9 }}
               onClick={() => void logout()}
-              className="flex items-center justify-center w-11 h-11 border-3 border-black bg-[var(--coral)]"
-              style={{ boxShadow: '3px 3px 0px 0px black' }}
-              title="Logout"
+              className="w-10 h-10 rounded-full bg-[var(--earth-cream)] flex items-center justify-center text-[var(--forest-mid)]"
             >
-              <LogOut size={22} strokeWidth={3} />
+              <LogOut size={18} />
             </motion.button>
           </div>
         </div>

@@ -63,69 +63,66 @@ export const TransactionForm = ({ transaction, onSubmit, onCancel, onClose }: Tr
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
-        className="w-full max-w-md bg-[var(--white)] border-4 border-black p-6"
-        style={{ boxShadow: '12px 12px 0px 0px black' }}
+        className="w-full max-w-md forest-card p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-6 pb-4 border-b-4 border-black">
-          <h2 className="neo-title text-xl">
-            {transaction ? 'EDIT TRANSACTION' : 'NEW TRANSACTION'}
+        <div className="flex items-center justify-between mb-6 pb-4 border-b border-[var(--earth-sand)]">
+          <h2 className="font-semibold text-xl text-[var(--forest-deep)]">
+            {transaction ? 'Edit Transaction' : 'New Transaction'}
           </h2>
           <motion.button
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
             type="button"
             onClick={onClose}
-            className="p-2 border-3 border-black hover:bg-[var(--coral)]"
+            className="p-2 rounded-xl hover:bg-[var(--coral)] hover:text-white transition-colors"
           >
-            <X size={16} strokeWidth={3} />
+            <X size={16} />
           </motion.button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="neo-label">TYPE</label>
+            <label className="block text-sm font-medium text-[var(--forest-deep)] mb-2">Type</label>
             <div className="flex gap-2">
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleTypeChange('contribution')}
-                className={`flex-1 py-3 border-3 border-black neo-title text-sm flex items-center justify-center gap-2 ${
+                className={`flex-1 py-3 rounded-full font-medium text-sm flex items-center justify-center gap-2 border transition-all ${
                   type === 'contribution'
-                    ? 'bg-[var(--mint)] text-[var(--black)]'
-                    : 'bg-[var(--white)] text-[var(--black)] hover:bg-[var(--cream)]'
+                    ? 'bg-[var(--mint)] text-[var(--forest-deep)] border-[var(--mint)]'
+                    : 'bg-white text-[var(--forest-deep)] border-[var(--earth-sand)] hover:border-[var(--forest-pale)]'
                 }`}
-                style={{ boxShadow: type === 'contribution' ? 'none' : '4px 4px 0px 0px black' }}
               >
-                <Plus size={14} strokeWidth={3} /> CONTRIBUTION
+                <Plus size={14} /> Contribution
               </motion.button>
               <motion.button
                 type="button"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleTypeChange('expense')}
-                className={`flex-1 py-3 border-3 border-black neo-title text-sm flex items-center justify-center gap-2 ${
+                className={`flex-1 py-3 rounded-full font-medium text-sm flex items-center justify-center gap-2 border transition-all ${
                   type === 'expense'
-                    ? 'bg-[var(--coral)] text-white'
-                    : 'bg-[var(--white)] text-[var(--black)] hover:bg-[var(--cream)]'
+                    ? 'bg-[var(--coral)] text-white border-[var(--coral)]'
+                    : 'bg-white text-[var(--forest-deep)] border-[var(--earth-sand)] hover:border-[var(--forest-pale)]'
                 }`}
-                style={{ boxShadow: type === 'expense' ? 'none' : '4px 4px 0px 0px black' }}
               >
-                <Minus size={14} strokeWidth={3} /> EXPENSE
+                <Minus size={14} /> Expense
               </motion.button>
             </div>
           </div>
 
           <div>
-            <label htmlFor="amount" className="neo-label">AMOUNT ($)</label>
+            <label htmlFor="amount" className="block text-sm font-medium text-[var(--forest-deep)] mb-2">Amount ($)</label>
             <input
               id="amount"
               type="number"
@@ -134,18 +131,18 @@ export const TransactionForm = ({ transaction, onSubmit, onCancel, onClose }: Tr
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.00"
-              className="neo-input"
+              className="forest-input w-full"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="category" className="neo-label">CATEGORY</label>
+            <label htmlFor="category" className="block text-sm font-medium text-[var(--forest-deep)] mb-2">Category</label>
             <select
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value as ContributionCategory | ExpenseCategory)}
-              className="neo-input"
+              className="forest-input w-full"
               required
             >
               {Object.entries(categories).map(([key, value]) => (
@@ -157,20 +154,20 @@ export const TransactionForm = ({ transaction, onSubmit, onCancel, onClose }: Tr
           </div>
 
           <div>
-            <label htmlFor="date" className="neo-label">DATE</label>
+            <label htmlFor="date" className="block text-sm font-medium text-[var(--forest-deep)] mb-2">Date</label>
             <input
               id="date"
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               max={getTodayDate()}
-              className="neo-input"
+              className="forest-input w-full"
               required
             />
           </div>
 
           <div>
-            <label htmlFor="note" className="neo-label">NOTE (OPTIONAL)</label>
+            <label htmlFor="note" className="block text-sm font-medium text-[var(--forest-deep)] mb-2">Note (Optional)</label>
             <input
               id="note"
               type="text"
@@ -178,7 +175,7 @@ export const TransactionForm = ({ transaction, onSubmit, onCancel, onClose }: Tr
               onChange={(e) => setNote(e.target.value)}
               placeholder="Add a note..."
               maxLength={200}
-              className="neo-input"
+              className="forest-input w-full"
             />
           </div>
 
@@ -188,9 +185,9 @@ export const TransactionForm = ({ transaction, onSubmit, onCancel, onClose }: Tr
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="bg-[var(--coral)] border-4 border-black p-3"
+                className="bg-[var(--coral)] rounded-xl p-3"
               >
-                <span className="neo-mono text-xs text-[var(--black)]">{error}</span>
+                <span className="text-xs text-white">{error}</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -201,19 +198,19 @@ export const TransactionForm = ({ transaction, onSubmit, onCancel, onClose }: Tr
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={onCancel}
-              className="flex-1 neo-button bg-[var(--gray-disabled)]"
+              className="flex-1 py-3 rounded-full border border-[var(--earth-sand)] bg-white text-[var(--forest-deep)] font-medium hover:bg-[var(--leaf-dew)] transition-colors"
               disabled={submitting}
             >
-              CANCEL
+              Cancel
             </motion.button>
             <motion.button
               type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               disabled={submitting}
-              className="flex-1 neo-button neo-button-primary"
+              className="flex-1 py-3 rounded-full forest-button disabled:opacity-50"
             >
-              {submitting ? 'SAVING...' : transaction ? 'UPDATE' : 'ADD'}
+              {submitting ? 'Saving...' : transaction ? 'Update' : 'Add'}
             </motion.button>
           </div>
         </form>

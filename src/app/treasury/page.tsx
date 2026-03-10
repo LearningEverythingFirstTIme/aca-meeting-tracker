@@ -12,7 +12,7 @@ import {
   where,
 } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus } from "lucide-react";
+import { Plus, Wallet } from "lucide-react";
 import { getClientDb } from "@/lib/firebase/client";
 import { useAuth } from "@/components/auth-provider";
 import { Navigation } from "@/components/navigation";
@@ -135,27 +135,32 @@ export default function TreasuryPage() {
   };
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-gradient-to-b from-[var(--leaf-dew)] to-[var(--earth-cream)]">
       <Navigation />
       
       <div className="px-4 py-8 md:px-8">
         <div className="mx-auto max-w-4xl space-y-6">
+          {/* Header */}
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="bg-[var(--lavender)] border-4 border-black p-1"
-            style={{ boxShadow: '8px 8px 0px 0px black' }}
+            className="forest-card bg-gradient-to-r from-[var(--lavender)] to-[var(--lavender-soft)] p-6"
           >
-            <div className="bg-[var(--white)] border-3 border-black p-6 flex items-center justify-between">
-              <h1 className="neo-title text-3xl text-[var(--black)]">TREASURY</h1>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+                  <Wallet size={20} className="text-[var(--lavender-deep)]" />
+                </div>
+                <h1 className="font-semibold text-2xl text-white">Treasury</h1>
+              </div>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={() => setShowForm(true)}
-                className="neo-button neo-button-primary flex items-center gap-2"
+                className="bg-white text-[var(--forest-deep)] px-4 py-2 rounded-full font-medium flex items-center gap-2 shadow-sm hover:shadow-md transition-shadow"
               >
-                <Plus size={14} strokeWidth={3} /> ADD
+                <Plus size={16} /> Add
               </motion.button>
             </div>
           </motion.div>
@@ -166,10 +171,9 @@ export default function TreasuryPage() {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="bg-[var(--coral)] border-4 border-black p-4"
-                style={{ boxShadow: '8px 8px 0px 0px black' }}
+                className="forest-card p-4 bg-gradient-to-r from-[var(--coral)] to-[var(--coral-warm)]"
               >
-                <span className="neo-title text-sm text-[var(--black)]">ERROR: {error}</span>
+                <span className="font-medium text-sm text-white">Error: {error}</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -186,11 +190,11 @@ export default function TreasuryPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="neo-card p-6"
+            className="forest-card p-6"
           >
-            <div className="flex items-center gap-2 mb-4 pb-3 border-b-4 border-black">
-              <span className="neo-title text-sm text-[var(--lavender)]">►</span>
-              <span className="neo-title text-sm">TRANSACTIONS</span>
+            <div className="flex items-center gap-2 mb-4 pb-3 border-b border-[var(--earth-sand)]">
+              <span className="text-sm text-[var(--forest-light)]">►</span>
+              <span className="font-semibold text-sm text-[var(--forest-deep)]">Transactions</span>
             </div>
 
             {loading ? (
@@ -198,10 +202,9 @@ export default function TreasuryPage() {
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  className="mx-auto mb-4 h-10 w-10 border-4 border-black bg-[var(--butter)]"
-                  style={{ boxShadow: '6px 6px 0px 0px black' }}
+                  className="mx-auto mb-4 h-10 w-10 rounded-full border-3 border-[var(--forest-mid)] border-t-transparent"
                 />
-                <p className="neo-title animate-blink">LOADING...</p>
+                <p className="text-[var(--forest-deep)] animate-pulse">Loading...</p>
               </div>
             ) : transactions.length === 0 ? (
               <motion.div
@@ -210,12 +213,14 @@ export default function TreasuryPage() {
                 className="text-center py-12"
               >
                 <motion.div
-                  className="h-6 w-6 bg-[var(--lavender)] border-3 border-black mx-auto mb-4"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                />
-                <p className="neo-title text-lg">NO TRANSACTIONS</p>
-                <p className="neo-mono text-xs mt-2">Click ADD to record your first transaction.</p>
+                  className="h-12 w-12 rounded-full bg-[var(--butter)] mx-auto mb-4 flex items-center justify-center"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Wallet size={24} className="text-[var(--forest-deep)]" />
+                </motion.div>
+                <p className="font-semibold text-lg text-[var(--forest-deep)]">No Transactions</p>
+                <p className="text-sm mt-2 text-[var(--earth-wood)]">Click Add to record your first transaction.</p>
               </motion.div>
             ) : (
               <div className="space-y-3">

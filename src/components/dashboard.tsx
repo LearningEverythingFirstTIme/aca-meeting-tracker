@@ -87,35 +87,36 @@ const staggerContainer = {
 } as const;
 
 const statCardVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, scale: 0.9, y: 10 },
   show: { 
     opacity: 1, 
     scale: 1,
-    transition: { duration: 0.5, type: "spring" as const, stiffness: 200 }
+    y: 0,
+    transition: { duration: 0.5, type: "spring" as const, stiffness: 150, damping: 15 }
   },
 };
 
 const meetingCardVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
   show: { 
     opacity: 1, 
     y: 0,
     scale: 1,
-    transition: { duration: 0.4, type: "spring" as const, stiffness: 150 }
+    transition: { duration: 0.4, type: "spring" as const, stiffness: 120, damping: 15 }
   },
   exit: { 
     opacity: 0, 
-    scale: 0.9,
-    transition: { duration: 0.2 }
+    scale: 0.98,
+    transition: { duration: 0.25 }
   },
 };
 
 const logItemVariants = {
-  hidden: { opacity: 0, x: -10 },
+  hidden: { opacity: 0, x: -8 },
   show: { 
     opacity: 1, 
     x: 0,
-    transition: { duration: 0.3 }
+    transition: { duration: 0.35, ease: "easeOut" as const }
   },
 };
 
@@ -123,19 +124,19 @@ const ACTIVITY_WEEKS = 16;
 const ACTIVITY_LEVELS = [0, 1, 2, 3, 4] as const;
 
 const activityToneByLevel = [
-  "var(--white)",
-  "var(--butter)",
-  "var(--sky)",
-  "var(--mint)",
-  "var(--coral)",
+  "var(--leaf-dew)",
+  "var(--forest-light)",
+  "var(--forest-mid)",
+  "var(--forest-deep)",
+  "var(--earth-brown)",
 ] as const;
 
 const activityShadowByLevel = [
-  "0 0 0 0 var(--black)",
-  "2px 2px 0px 0px var(--black)",
-  "2px 2px 0px 0px var(--black)",
-  "2px 2px 0px 0px var(--black)",
-  "2px 2px 0px 0px var(--black)",
+  "0 2px 4px rgba(0,0,0,0.05)",
+  "0 2px 6px rgba(45,90,60,0.15)",
+  "0 2px 6px rgba(45,90,60,0.2)",
+  "0 2px 6px rgba(45,90,60,0.25)",
+  "0 2px 8px rgba(45,90,60,0.3)",
 ] as const;
 
 const activityLevelForCount = (count: number) => {
@@ -160,7 +161,7 @@ type SortableDashboardSectionProps = DashboardSectionDefinition & {
   isEditing: boolean;
 };
 
-const dashboardStatCardClass = "neo-dashboard-stat";
+const dashboardStatCardClass = "forest-stat";
 
 const SortableDashboardSection = ({
   id,
@@ -194,27 +195,27 @@ const SortableDashboardSection = ({
         className={[
           "relative h-full",
           isEditing
-            ? "rounded-[1.5rem] border-4 border-dashed border-black bg-[var(--cream)] p-3"
+            ? "rounded-3xl border-2 border-dashed border-[var(--earth-sand)] bg-[var(--earth-cream)]/50 p-4"
             : "",
-          isDragging ? "opacity-95" : "",
+          isDragging ? "opacity-90" : "",
         ].join(" ")}
-        style={isEditing ? { boxShadow: "8px 8px 0px 0px black" } : undefined}
+        style={isEditing ? { boxShadow: "0 8px 32px rgba(45,90,60,0.12)" } : undefined}
       >
         {isEditing ? (
-          <div className="mb-3 flex items-center justify-between gap-3 border-b-2 border-dashed border-black pb-3">
+          <div className="mb-3 flex items-center justify-between gap-3 border-b border-dashed border-[var(--earth-sand)] pb-3">
             <div>
-              <p className="neo-title text-sm text-[var(--black)]">{label}</p>
-              <p className="neo-mono text-[10px] uppercase text-[var(--black)]/70">{hint}</p>
+              <p className="forest-title text-sm text-[var(--forest-deep)]">{label}</p>
+              <p className="text-[10px] text-[var(--forest-mid)]/70">{hint}</p>
             </div>
             <button
               type="button"
               {...attributes}
               {...listeners}
-              className="neo-button flex items-center gap-2 px-3 py-2 text-[10px]"
+              className="forest-button flex items-center gap-2 px-3 py-2 text-[10px]"
               style={{ touchAction: "none" }}
               aria-label={`Drag ${label}`}
             >
-              <GripVertical size={12} strokeWidth={3} /> DRAG
+              <GripVertical size={12} strokeWidth={2} /> DRAG
             </button>
           </div>
         ) : null}
@@ -692,6 +693,7 @@ export const Dashboard = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <SobrietyCounter
             sobrietyDate={userProfile?.sobrietyDate || null}
@@ -710,23 +712,23 @@ export const Dashboard = () => {
           variants={statCardVariants}
           initial="hidden"
           animate="show"
-          className={`${dashboardStatCardClass} bg-[var(--mint)] dark:bg-[#2d5a56]`}
+          className={`${dashboardStatCardClass} forest-stat-mint`}
         >
           <div className="mb-4 flex items-center gap-2">
-            <Calendar size={20} strokeWidth={3} />
-            <span className="neo-title text-sm">WEEKLY</span>
+            <Calendar size={20} strokeWidth={2} className="text-[var(--forest-deep)]" />
+            <span className="forest-title text-sm text-[var(--forest-deep)]">WEEKLY</span>
           </div>
           <div className="mt-auto">
             <motion.p
-              className="neo-title text-6xl text-[var(--black)]"
+              className="forest-title text-6xl text-[var(--forest-deep)]"
               key={thisWeekCheckins.length}
-              initial={{ scale: 1.3 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={{ scale: 1.2, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
             >
               {thisWeekCheckins.length}
             </motion.p>
-            <p className="neo-mono mt-2 text-sm text-[var(--black)]">CHECK-INS</p>
+            <p className="mt-2 text-sm font-medium text-[var(--forest-mid)]">Check-ins</p>
           </div>
         </motion.article>
       ),
@@ -741,15 +743,15 @@ export const Dashboard = () => {
           variants={statCardVariants}
           initial="hidden"
           animate="show"
-          className={`${dashboardStatCardClass} bg-[var(--butter)] dark:bg-[#8b7355]`}
+          className={`${dashboardStatCardClass} forest-stat-butter`}
         >
           <div className="mb-4 flex items-center gap-2">
-            <Activity size={20} strokeWidth={3} />
-            <span className="neo-title text-sm">ACTIVE</span>
+            <Activity size={20} strokeWidth={2} className="text-[var(--earth-brown)]" />
+            <span className="forest-title text-sm text-[var(--earth-brown)]">ACTIVE</span>
           </div>
           <div className="mt-auto">
-            <p className="neo-title text-6xl text-[var(--black)]">{meetings.length}</p>
-            <p className="neo-mono mt-2 text-sm text-[var(--black)]">MEETINGS</p>
+            <p className="forest-title text-6xl text-[var(--earth-brown)]">{meetings.length}</p>
+            <p className="mt-2 text-sm font-medium text-[var(--earth-sand)]">Meetings</p>
           </div>
         </motion.article>
       ),
@@ -764,23 +766,24 @@ export const Dashboard = () => {
           variants={statCardVariants}
           initial="hidden"
           animate="show"
-          className={`${dashboardStatCardClass} bg-[var(--lavender)]`}
+          className={`${dashboardStatCardClass} forest-stat-lavender`}
         >
           <div className="mb-4 flex items-center gap-2">
-            <Clock size={20} strokeWidth={3} />
-            <span className="neo-title text-sm">LATEST</span>
+            <Clock size={20} strokeWidth={2} className="text-[var(--forest-deep)]" />
+            <span className="forest-title text-sm text-[var(--forest-deep)]">LATEST</span>
           </div>
           <div className="mt-auto space-y-3">
             <motion.p
-              className="neo-mono text-2xl font-bold leading-snug text-[var(--black)]"
+              className="text-lg font-medium leading-snug text-[var(--forest-deep)]"
               key={checkins[0]?.id || "none"}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              transition={{ duration: 0.4 }}
             >
-              {checkins[0]?.createdAt ? formatDateTime(checkins[0].createdAt) : "NO DATA"}
+              {checkins[0]?.createdAt ? formatDateTime(checkins[0].createdAt) : "No data"}
             </motion.p>
-            <p className="neo-mono text-xl font-bold text-[var(--black)]">
-              {checkins[0]?.meetingName?.toUpperCase() ?? "NO RECENT CHECK-IN"}
+            <p className="text-base font-medium text-[var(--forest-mid)]">
+              {checkins[0]?.meetingName ?? "No recent check-in"}
             </p>
           </div>
         </motion.article>
@@ -803,13 +806,12 @@ export const Dashboard = () => {
           <motion.div
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="bg-[var(--coral)] border-4 border-black p-1"
-            style={{ boxShadow: "8px 8px 0px 0px black" }}
+            transition={{ delay: 0.2, duration: 0.4, ease: "easeOut" }}
+            className="rounded-3xl bg-gradient-to-br from-[var(--coral)] to-[#e8a598] p-1 shadow-lg shadow-[var(--coral)]/20"
           >
-            <div className="border-3 border-black bg-[var(--white)] p-4">
-              <h2 className="neo-title flex items-center gap-2 text-xl text-[var(--black)]">
-                <Plus size={24} strokeWidth={3} /> ADD MEETING
+            <div className="rounded-[20px] bg-[var(--white)]/90 p-4 backdrop-blur-sm">
+              <h2 className="forest-title flex items-center gap-2 text-xl text-[var(--forest-deep)]">
+                <Plus size={24} strokeWidth={2} /> Add Meeting
               </h2>
             </div>
           </motion.div>
@@ -828,18 +830,18 @@ export const Dashboard = () => {
           variants={staggerContainer}
           initial="hidden"
           animate="show"
-          className="neo-card p-6"
+          className="forest-card rounded-3xl p-6"
         >
-          <div className="mb-4 flex items-center gap-2 border-b-4 border-black pb-3">
-            <span className="neo-title text-sm text-[var(--mint)]">►</span>
-            <span className="neo-title text-sm">RECENT CHECK-INS</span>
+          <div className="mb-4 flex items-center gap-2 border-b border-[var(--earth-sand)] pb-3">
+            <span className="forest-title text-sm text-[var(--forest-mid)]">◆</span>
+            <span className="forest-title text-sm text-[var(--forest-deep)]">Recent Check-ins</span>
           </div>
           <ul className="space-y-2">
             {checkins.slice(0, 8).map((entry) => (
               <motion.li
                 variants={logItemVariants}
                 key={entry.id}
-                className="border-3 border-black bg-[var(--cream)] px-3 py-2"
+                className="rounded-2xl border border-[var(--earth-sand)] bg-[var(--earth-cream)]/50 px-3 py-2"
               >
                 {editingCheckinId === entry.id ? (
                   <div className="space-y-2">
@@ -848,7 +850,7 @@ export const Dashboard = () => {
                         type="date"
                         value={editingCheckinDate}
                         onChange={(e) => setEditingCheckinDate(e.target.value)}
-                        className="neo-input py-1 text-xs"
+                        className="forest-input py-1 text-xs"
                         max={getTodayDate()}
                       />
                     </div>
@@ -857,55 +859,55 @@ export const Dashboard = () => {
                       value={editingCheckinNote}
                       onChange={(e) => setEditingCheckinNote(e.target.value)}
                       placeholder="Add a note..."
-                      className="neo-input py-1 text-xs"
+                      className="forest-input py-1 text-xs"
                       maxLength={200}
                     />
                     <div className="flex gap-2">
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                         onClick={() => saveCheckinEdit(entry.id)}
-                        className="neo-button bg-[var(--mint)] px-2 py-1 text-[10px]"
+                        className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-deep)] px-3 py-1.5 text-[10px] font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                       >
-                        SAVE
+                        Save
                       </motion.button>
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
                         onClick={cancelEditingCheckin}
-                        className="neo-button bg-[var(--gray-disabled)] px-2 py-1 text-[10px]"
+                        className="rounded-full bg-[var(--earth-sand)] px-3 py-1.5 text-[10px] font-medium text-[var(--forest-deep)]"
                       >
-                        CANCEL
+                        Cancel
                       </motion.button>
                     </div>
                   </div>
                 ) : (
                   <div className="flex items-center justify-between">
                     <div className="min-w-0 flex-1">
-                      <span className="neo-mono block truncate text-xs uppercase">{entry.meetingName}</span>
+                      <span className="block truncate text-xs font-medium text-[var(--forest-deep)]">{entry.meetingName}</span>
                       {entry.note && (
-                        <span className="neo-mono block truncate text-[10px] text-[var(--gray-muted)]">&ldquo;{entry.note}&rdquo;</span>
+                        <span className="block truncate text-[10px] text-[var(--forest-mid)]/70">&ldquo;{entry.note}&rdquo;</span>
                       )}
                     </div>
                     <div className="ml-2 flex items-center gap-2">
-                      <span className="neo-mono whitespace-nowrap text-[10px]">
+                      <span className="whitespace-nowrap text-[10px] text-[var(--forest-mid)]">
                         {entry.createdAt ? formatDateTime(entry.createdAt).split(" ")[0] : entry.dayKey}
                       </span>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => startEditingCheckin(entry)}
-                        className="border border-black p-1 hover:bg-[var(--butter)]"
+                        className="rounded-lg border border-[var(--earth-sand)] p-1.5 text-[var(--forest-mid)] hover:bg-[var(--butter)] hover:text-[var(--earth-brown)]"
                       >
-                        <Edit2 size={10} strokeWidth={3} />
+                        <Edit2 size={10} strokeWidth={2} />
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => deleteCheckin(entry.id, entry.meetingName)}
-                        className="border border-black p-1 hover:bg-[var(--coral)]"
+                        className="rounded-lg border border-[var(--coral)]/30 p-1.5 text-[var(--coral)] hover:bg-[var(--coral)]/10"
                       >
-                        <Trash2 size={10} strokeWidth={3} />
+                        <Trash2 size={10} strokeWidth={2} />
                       </motion.button>
                     </div>
                   </div>
@@ -913,7 +915,7 @@ export const Dashboard = () => {
               </motion.li>
             ))}
             {checkins.length === 0 ? (
-              <li className="neo-mono text-xs text-[var(--gray-muted)]">NO RECORDS</li>
+              <li className="text-xs text-[var(--forest-mid)]/60">No records</li>
             ) : null}
           </ul>
         </motion.div>
@@ -929,12 +931,11 @@ export const Dashboard = () => {
           <motion.div
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.15 }}
-            className="bg-[var(--sky)] border-4 border-black p-1"
-            style={{ boxShadow: "8px 8px 0px 0px black" }}
+            transition={{ delay: 0.15, duration: 0.4, ease: "easeOut" }}
+            className="rounded-3xl bg-gradient-to-br from-[var(--sky)] to-[#a8d5f0] p-1 shadow-lg shadow-[var(--sky)]/20"
           >
-            <div className="border-3 border-black bg-[var(--white)] p-4">
-              <h2 className="neo-title text-xl text-[var(--black)]">YOUR MEETINGS</h2>
+            <div className="rounded-[20px] bg-[var(--white)]/90 p-4 backdrop-blur-sm">
+              <h2 className="forest-title text-xl text-[var(--forest-deep)]">Your Meetings</h2>
             </div>
           </motion.div>
 
@@ -942,15 +943,14 @@ export const Dashboard = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="neo-card p-8 text-center"
+              className="forest-card rounded-3xl p-8 text-center"
             >
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                className="mx-auto mb-4 h-12 w-12 border-4 border-black bg-[var(--butter)]"
-                style={{ boxShadow: "6px 6px 0px 0px black" }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                className="mx-auto mb-4 h-12 w-12 rounded-2xl bg-gradient-to-br from-[var(--butter)] to-[var(--coral)] shadow-lg"
               />
-              <p className="neo-title animate-blink">LOADING...</p>
+              <p className="forest-title animate-pulse text-[var(--forest-mid)]">Loading...</p>
             </motion.div>
           ) : null}
 
@@ -972,10 +972,10 @@ export const Dashboard = () => {
                     layout
                     variants={meetingCardVariants}
                     key={meeting.id}
-                    className={`neo-card p-6 ${todaysCheckin ? "border-[var(--mint)]" : ""}`}
-                    style={todaysCheckin ? { boxShadow: "10px 10px 0px 0px var(--mint)" } : {}}
-                    whileHover={{ scale: 1.01 }}
-                    transition={{ duration: 0.2 }}
+                    className={`forest-card rounded-3xl p-6 ${todaysCheckin ? "ring-2 ring-[var(--forest-mid)]" : ""}`}
+                    style={todaysCheckin ? { boxShadow: "0 8px 32px rgba(45,90,60,0.15)" } : {}}
+                    whileHover={{ scale: 1.005, y: -2 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
                   >
                     {isEditing ? (
                       <MeetingForm
@@ -997,83 +997,82 @@ export const Dashboard = () => {
                           <div>
                             <div className="mb-2 flex items-center gap-2">
                               <motion.div
-                                className={`h-3 w-3 border-3 border-black ${todaysCheckin ? "bg-[var(--mint)]" : "bg-[var(--gray-muted)]"}`}
+                                className={`h-3 w-3 rounded-full border-2 ${todaysCheckin ? "border-[var(--forest-mid)] bg-[var(--forest-mid)]" : "border-[var(--earth-sand)] bg-[var(--leaf-dew)]"}`}
                                 animate={showSuccess ? { scale: [1, 1.5, 1] } : {}}
                                 transition={{ duration: 0.4 }}
                               />
-                              <h3 className="neo-title text-xl">{meeting.name}</h3>
+                              <h3 className="forest-title text-xl text-[var(--forest-deep)]">{meeting.name}</h3>
                             </div>
-                            <div className="neo-mono space-y-1 text-xs">
+                            <div className="space-y-1 text-xs text-[var(--forest-mid)]">
                               <div className="flex items-center gap-2">
-                                <MapPin size={12} strokeWidth={3} />
-                                <span className="uppercase">{meeting.location}</span>
+                                <MapPin size={12} strokeWidth={2} />
+                                <span>{meeting.location}</span>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Clock size={12} strokeWidth={3} />
-                                <span className="uppercase">{timeLabel(meeting.time)}</span>
+                                <Clock size={12} strokeWidth={2} />
+                                <span>{timeLabel(meeting.time)}</span>
                               </div>
                             </div>
                           </div>
 
                           <div className="flex flex-wrap gap-2">
                             <motion.button
-                              whileHover={{ scale: 1.05, y: -2 }}
-                              whileTap={{ scale: 0.95 }}
+                              whileHover={{ scale: 1.03 }}
+                              whileTap={{ scale: 0.97 }}
                               type="button"
                               onClick={() => setEditingMeetingId(meeting.id)}
-                              className="neo-button neo-button-primary py-2 text-xs"
+                              className="rounded-full bg-gradient-to-r from-[var(--sky)] to-[#7ec8e8] px-4 py-2 text-xs font-medium text-[var(--forest-deep)] shadow-md shadow-[var(--sky)]/20"
                             >
-                              <Edit2 size={12} strokeWidth={3} /> EDIT
+                              <Edit2 size={12} strokeWidth={2} className="inline mr-1" /> Edit
                             </motion.button>
                             <motion.button
-                              whileHover={{ scale: 1.05, y: -2, x: [0, -2, 2, -1, 1, 0] }}
-                              whileTap={{ scale: 0.95 }}
+                              whileHover={{ scale: 1.03 }}
+                              whileTap={{ scale: 0.97 }}
                               type="button"
                               onClick={() => void removeMeeting(meeting.id)}
-                              className="neo-button neo-button-danger py-2 text-xs"
+                              className="rounded-full bg-gradient-to-r from-[var(--coral)] to-[#e8a598] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--coral)]/20"
                             >
-                              <Trash2 size={12} strokeWidth={3} /> DEL
+                              <Trash2 size={12} strokeWidth={2} className="inline mr-1" /> Del
                             </motion.button>
                             <motion.button
-                              whileHover={!todaysCheckin ? { scale: 1.05, y: -2 } : {}}
-                              whileTap={!todaysCheckin ? { scale: 0.95 } : {}}
+                              whileHover={!todaysCheckin ? { scale: 1.03, y: -1 } : {}}
+                              whileTap={!todaysCheckin ? { scale: 0.97 } : {}}
                               type="button"
                               disabled={todaysCheckin || pendingCheckinId === meeting.id}
                               onClick={() => void checkIn(meeting)}
-                              className={`neo-button py-2 text-xs ${
+                              className={`rounded-full px-4 py-2 text-xs font-medium shadow-md transition-all ${
                                 todaysCheckin
-                                  ? "neo-button-success"
-                                  : "bg-[var(--sky)] border-3 border-black text-[var(--black)] hover:bg-[#7DD3FC]"
+                                  ? "bg-[var(--forest-mid)] text-white shadow-[var(--forest-mid)]/20"
+                                  : "bg-gradient-to-r from-[var(--forest-light)] to-[var(--forest-mid)] text-white shadow-[var(--forest-mid)]/20 hover:shadow-lg hover:shadow-[var(--forest-mid)]/30"
                               }`}
-                              style={!todaysCheckin ? { boxShadow: "4px 4px 0px 0px black" } : {}}
                             >
                               {todaysCheckin ? (
                                 <>
-                                  <CheckCircle size={12} strokeWidth={3} /> ✓ DONE
+                                  <CheckCircle size={12} strokeWidth={2} className="inline mr-1" /> Done
                                 </>
                               ) : pendingCheckinId === meeting.id ? (
                                 "..."
                               ) : (
-                                "CHECK IN"
+                                "Check In"
                               )}
                             </motion.button>
                           </div>
                         </div>
 
-                        <div className="mt-4 border-t-2 border-dashed border-black pt-3">
-                          <p className="neo-mono mb-2 text-[10px]">HISTORY ({history.length})</p>
+                        <div className="mt-4 border-t border-dashed border-[var(--earth-sand)] pt-3">
+                          <p className="mb-2 text-[10px] font-medium text-[var(--forest-mid)]/70">History ({history.length})</p>
                           <div className="flex flex-wrap gap-1">
                             {history.slice(0, 6).map((entry) => (
                               <span
                                 key={entry.id}
-                                className="neo-mono border border-black bg-[var(--cream)] px-2 py-1 text-[10px]"
+                                className="rounded-full bg-[var(--earth-cream)] px-2.5 py-1 text-[10px] font-medium text-[var(--forest-mid)]"
                                 title={entry.note || undefined}
                               >
                                 {entry.createdAt ? formatDateTime(entry.createdAt).split(" ")[0] : entry.dayKey}
                               </span>
                             ))}
                             {history.length === 0 ? (
-                              <span className="neo-mono text-[10px] text-[var(--gray-muted)]">NO DATA</span>
+                              <span className="text-[10px] text-[var(--forest-mid)]/50">No data</span>
                             ) : null}
                           </div>
                         </div>
@@ -1088,15 +1087,15 @@ export const Dashboard = () => {
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="neo-card border-dashed p-12 text-center"
+                className="forest-card rounded-3xl border-2 border-dashed border-[var(--earth-sand)] p-12 text-center"
               >
                 <motion.div
-                  className="mx-auto mb-4 h-6 w-6 border-3 border-black bg-[var(--coral)]"
+                  className="mx-auto mb-4 h-6 w-6 rounded-full bg-[var(--coral)]"
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 0.5, repeat: Infinity }}
                 />
-                <p className="neo-title text-lg">NO MEETINGS</p>
-                <p className="neo-mono mt-2 text-xs">Add a meeting above to start tracking.</p>
+                <p className="forest-title text-lg text-[var(--forest-deep)]">No Meetings</p>
+                <p className="mt-2 text-xs text-[var(--forest-mid)]">Add a meeting above to start tracking.</p>
               </motion.div>
             ) : null}
           </motion.div>
@@ -1112,18 +1111,18 @@ export const Dashboard = () => {
         <motion.section
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="neo-card p-6"
+          transition={{ delay: 0.4, duration: 0.4 }}
+          className="forest-card rounded-3xl p-6"
         >
-          <div className="mb-4 flex items-center gap-2 border-b-4 border-black pb-3">
-            <span className="neo-title text-sm text-[var(--sky)]">►</span>
-            <span className="neo-title text-sm">ACTIVITY TRACKER</span>
+          <div className="mb-4 flex items-center gap-2 border-b border-[var(--earth-sand)] pb-3">
+            <span className="forest-title text-sm text-[var(--forest-mid)]">◆</span>
+            <span className="forest-title text-sm text-[var(--forest-deep)]">Activity Tracker</span>
           </div>
           <div className="overflow-x-auto pb-2">
             <div className="inline-flex min-w-full gap-3">
               <div className="flex flex-col pt-8 text-[10px]">
                 {Array.from({ length: 7 }, (_, dayIndex) => (
-                  <div key={dayIndex} className="neo-mono flex h-4 items-center justify-end pr-1 text-[10px] text-[var(--black)]/70">
+                  <div key={dayIndex} className="flex h-4 items-center justify-end pr-1 text-[10px] text-[var(--forest-mid)]/70">
                     {weekdayLabels.includes(["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"][dayIndex])
                       ? ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"][dayIndex]
                       : ""}
@@ -1133,7 +1132,7 @@ export const Dashboard = () => {
               <div className="flex-1">
                 <div className="mb-2 grid" style={{ gridTemplateColumns: `repeat(${activityGrid.length}, minmax(0, 1fr))` }}>
                   {activityGrid.map((week, index) => (
-                    <div key={`${week.label}-${index}`} className="neo-mono h-6 px-[2px] text-[10px] text-[var(--black)]/70">
+                    <div key={`${week.label}-${index}`} className="h-6 px-[2px] text-[10px] text-[var(--forest-mid)]/70">
                       {week.label}
                     </div>
                   ))}
@@ -1151,8 +1150,8 @@ export const Dashboard = () => {
                         key={day.key}
                         initial={{ opacity: 0, scale: 0.85 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: weekIndex * 0.01 + dayIndex * 0.01 }}
-                        className={`group relative h-4 w-4 border-3 border-black ${day.isToday ? "ring-2 ring-black ring-offset-2 ring-offset-[var(--cream)]" : ""}`}
+                        transition={{ delay: weekIndex * 0.01 + dayIndex * 0.01, duration: 0.2 }}
+                        className={`group relative h-4 w-4 rounded-sm ${day.isToday ? "ring-2 ring-[var(--forest-deep)] ring-offset-2 ring-offset-[var(--earth-cream)]" : ""}`}
                         style={{
                           backgroundColor: activityToneByLevel[day.level],
                           boxShadow: activityShadowByLevel[day.level],
@@ -1168,16 +1167,16 @@ export const Dashboard = () => {
               </div>
             </div>
           </div>
-          <div className="mt-4 flex flex-col gap-3 border-t-2 border-dashed border-black pt-3 md:flex-row md:items-center md:justify-between">
-            <p className="neo-mono text-[10px] uppercase text-[var(--black)]/80">
+          <div className="mt-4 flex flex-col gap-3 border-t border-dashed border-[var(--earth-sand)] pt-3 md:flex-row md:items-center md:justify-between">
+            <p className="text-[10px] text-[var(--forest-mid)]/70">
               Last {ACTIVITY_WEEKS} weeks of check-ins across all meetings.
             </p>
-            <div className="neo-mono flex items-center gap-2 text-[10px] uppercase">
+            <div className="flex items-center gap-2 text-[10px] text-[var(--forest-mid)]/70">
               <span>Less</span>
               {ACTIVITY_LEVELS.map((level) => (
                 <span
                   key={level}
-                  className="h-4 w-4 border-3 border-black"
+                  className="h-4 w-4 rounded-sm"
                   style={{
                     backgroundColor: activityToneByLevel[level],
                     boxShadow: activityShadowByLevel[level],
@@ -1199,12 +1198,12 @@ export const Dashboard = () => {
         <motion.section
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="neo-card p-6"
+          transition={{ delay: 0.4, duration: 0.4 }}
+          className="forest-card rounded-3xl p-6"
         >
-          <div className="mb-4 flex items-center gap-2 border-b-4 border-black pb-3">
-            <span className="neo-title text-sm text-[var(--lavender)]">►</span>
-            <span className="neo-title text-sm">WEEKLY LOG</span>
+          <div className="mb-4 flex items-center gap-2 border-b border-[var(--earth-sand)] pb-3">
+            <span className="forest-title text-sm text-[var(--forest-mid)]">◆</span>
+            <span className="forest-title text-sm text-[var(--forest-deep)]">Weekly Log</span>
           </div>
           <ul className="space-y-2">
             {thisWeekCheckins.map((entry, i) => {
@@ -1213,24 +1212,24 @@ export const Dashboard = () => {
                 <motion.li
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 + 0.5 }}
+                  transition={{ delay: i * 0.05 + 0.5, duration: 0.3 }}
                   key={entry.id}
-                  className="flex items-center justify-between border-3 border-black bg-[var(--lavender)] px-4 py-2"
+                  className="flex items-center justify-between rounded-2xl border border-[var(--earth-sand)] bg-[var(--lavender)]/30 px-4 py-2"
                 >
                   <div className="min-w-0 flex-1">
-                    <span className="neo-mono block text-xs uppercase">{meeting?.name ?? entry.meetingName}</span>
+                    <span className="block text-xs font-medium text-[var(--forest-deep)]">{meeting?.name ?? entry.meetingName}</span>
                     {entry.note && (
-                      <span className="neo-mono block truncate text-[10px] text-[var(--gray-muted)]">&ldquo;{entry.note}&rdquo;</span>
+                      <span className="block truncate text-[10px] text-[var(--forest-mid)]/70">&ldquo;{entry.note}&rdquo;</span>
                     )}
                   </div>
-                  <span className="neo-mono ml-2 whitespace-nowrap text-[10px]">
+                  <span className="ml-2 whitespace-nowrap text-[10px] text-[var(--forest-mid)]">
                     {entry.createdAt ? formatDateTime(entry.createdAt) : entry.dayKey}
                   </span>
                 </motion.li>
               );
             })}
             {thisWeekCheckins.length === 0 ? (
-              <li className="neo-mono py-4 text-center text-xs">NO ACTIVITY</li>
+              <li className="py-4 text-center text-xs text-[var(--forest-mid)]/60">No activity</li>
             ) : null}
           </ul>
         </motion.section>
@@ -1239,7 +1238,7 @@ export const Dashboard = () => {
   };
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-gradient-to-br from-[var(--earth-cream)] via-[var(--leaf-dew)] to-[var(--earth-cream)]">
       <Navigation />
       <div className="px-4 py-8 md:px-8">
         <div className="mx-auto max-w-[1400px] space-y-6">
@@ -1249,12 +1248,11 @@ export const Dashboard = () => {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="border-4 border-black bg-[var(--coral)] p-4"
-                style={{ boxShadow: "8px 8px 0px 0px black" }}
+                className="rounded-2xl bg-[var(--coral)] p-4 shadow-lg shadow-[var(--coral)]/20"
               >
                 <div className="flex items-center gap-3">
-                  <div className="h-4 w-4 bg-black" />
-                  <span className="neo-title text-sm text-[var(--black)]">ERROR: {error}</span>
+                  <div className="h-4 w-4 rounded-full bg-white" />
+                  <span className="forest-title text-sm text-white">Error: {error}</span>
                 </div>
               </motion.div>
             )}
@@ -1263,16 +1261,16 @@ export const Dashboard = () => {
           <motion.section
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="border-4 border-black bg-[var(--white)] p-1"
-            style={{ boxShadow: "8px 8px 0px 0px black" }}
+            transition={{ duration: 0.4 }}
+            className="rounded-3xl bg-gradient-to-br from-[var(--white)] to-[var(--earth-cream)] p-1 shadow-lg shadow-[var(--forest-mid)]/10"
           >
-            <div className="flex flex-col gap-4 border-2 border-black bg-[var(--cream)] p-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-4 rounded-[20px] bg-[var(--white)]/80 p-4 backdrop-blur-sm md:flex-row md:items-center md:justify-between">
               <div>
                 <div className="mb-2 flex items-center gap-2">
-                  <LayoutGrid size={18} strokeWidth={3} />
-                  <span className="neo-title text-base text-[var(--black)]">DASHBOARD LAYOUT</span>
+                  <LayoutGrid size={18} strokeWidth={2} className="text-[var(--forest-mid)]" />
+                  <span className="forest-title text-base text-[var(--forest-deep)]">Dashboard Layout</span>
                 </div>
-                <p className="neo-mono max-w-2xl text-xs text-[var(--black)]/70">
+                <p className="max-w-2xl text-xs text-[var(--forest-mid)]/70">
                   {isEditingLayout
                     ? "Drag cards by their handles, then save this order to keep it across refreshes, logouts, and future logins."
                     : "Turn on edit layout mode to rearrange the main dashboard cards and keep that order between sessions."}
@@ -1288,9 +1286,9 @@ export const Dashboard = () => {
                       type="button"
                       onClick={() => void saveLayout()}
                       disabled={isSavingLayout}
-                      className="neo-button bg-[var(--mint)] text-xs"
+                      className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-deep)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                     >
-                      <Save size={14} strokeWidth={3} /> {isSavingLayout ? "SAVING..." : "SAVE LAYOUT"}
+                      <Save size={14} strokeWidth={2} className="inline mr-1" /> {isSavingLayout ? "Saving..." : "Save Layout"}
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.03, y: -1 }}
@@ -1298,9 +1296,9 @@ export const Dashboard = () => {
                       type="button"
                       onClick={cancelLayoutEditing}
                       disabled={isSavingLayout}
-                      className="neo-button bg-[var(--white)] text-xs"
+                      className="rounded-full bg-[var(--earth-sand)] px-4 py-2 text-xs font-medium text-[var(--forest-deep)]"
                     >
-                      <X size={14} strokeWidth={3} /> CANCEL
+                      <X size={14} strokeWidth={2} className="inline mr-1" /> Cancel
                     </motion.button>
                   </>
                 ) : (
@@ -1309,9 +1307,9 @@ export const Dashboard = () => {
                     whileTap={{ scale: 0.97 }}
                     type="button"
                     onClick={beginLayoutEditing}
-                    className="neo-button neo-button-primary text-xs"
+                    className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-deep)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                   >
-                    <LayoutGrid size={14} strokeWidth={3} /> EDIT LAYOUT
+                    <LayoutGrid size={14} strokeWidth={2} className="inline mr-1" /> Edit Layout
                   </motion.button>
                 )}
               </div>

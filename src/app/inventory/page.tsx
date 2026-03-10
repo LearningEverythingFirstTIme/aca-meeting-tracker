@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getClientDb } from "@/lib/firebase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, doc, onSnapshot, query, serverTimestamp, setDoc, where } from "firebase/firestore";
-import { ClipboardList, Save, CheckCircle, Calendar, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, History, Edit2, X } from "lucide-react";
+import { ClipboardList, Save, CheckCircle, Calendar, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, History, Edit2, X, Sparkles } from "lucide-react";
 import { Navigation } from "@/components/navigation";
 import { useAuth } from "@/components/auth-provider";
 import { toLocalDayKey } from "@/lib/date";
@@ -14,38 +14,43 @@ import type { DailyInventory } from "@/types";
 const INVENTORY_PROMPTS = [
   {
     key: "resentments" as const,
-    label: "RESENTMENTS",
+    label: "Resentments",
     question: "Where was I resentful today?",
     placeholder: "e.g., at work, my neighbor...",
-    color: "var(--coral)",
+    color: "var(--coral-warm)",
+    icon: "💭",
   },
   {
     key: "fears" as const,
-    label: "FEARS",
+    label: "Fears",
     question: "Where was I afraid?",
     placeholder: "e.g., money, health, rejection...",
-    color: "var(--butter)",
+    color: "var(--butter-warm)",
+    icon: "🌤️",
   },
   {
     key: "dishonesty" as const,
-    label: "SELFISH / DISHONEST",
+    label: "Selfish / Dishonest",
     question: "Where was I selfish or dishonest?",
     placeholder: "e.g., white lie, hid my feelings...",
-    color: "var(--lavender)",
+    color: "var(--lavender-soft)",
+    icon: "🪞",
   },
   {
     key: "amends" as const,
-    label: "AMENDS",
+    label: "Amends",
     question: "Do I owe anyone an amends?",
     placeholder: "e.g., said something harsh to...",
-    color: "var(--sky)",
+    color: "var(--sky-soft)",
+    icon: "🤝",
   },
   {
     key: "gratitude" as const,
-    label: "GRATITUDE",
+    label: "Gratitude",
     question: "What am I grateful for today?",
     placeholder: "e.g., my health, a friend, a meeting...",
-    color: "var(--mint)",
+    color: "var(--mint-cool)",
+    icon: "✨",
   },
 ];
 
@@ -301,13 +306,13 @@ export default function InventoryPage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-gradient-to-b from-[var(--leaf-dew)] to-[var(--earth-cream)]">
         <Navigation />
         <div className="max-w-2xl mx-auto px-4 py-8">
-          <div className="neo-card p-12 text-center">
-            <ClipboardList size={48} className="mx-auto mb-4 text-[var(--black)]/30" />
-            <h1 className="neo-title text-2xl mb-2">Sign In Required</h1>
-            <p className="neo-mono text-sm text-[var(--black)]/60">Please sign in to keep your daily inventory.</p>
+          <div className="forest-card p-12 text-center">
+            <ClipboardList size={48} className="mx-auto mb-4 text-[var(--forest-light)]" />
+            <h1 className="font-semibold text-2xl mb-2 text-[var(--forest-deep)]">Sign In Required</h1>
+            <p className="text-sm text-[var(--earth-wood)]">Please sign in to keep your daily inventory.</p>
           </div>
         </div>
       </div>
@@ -315,23 +320,24 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-[var(--lavender-soft)]/30 via-[var(--leaf-dew)] to-[var(--earth-cream)]">
       <Navigation />
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="neo-card p-6 mb-6"
-          style={{ background: "var(--lavender)" }}
+          className="forest-card p-6 mb-6 bg-gradient-to-r from-[var(--lavender)] to-[var(--lavender-soft)]"
         >
           <div className="flex items-center gap-3 mb-2">
-            <ClipboardList size={28} strokeWidth={3} />
-            <h1 className="neo-title text-2xl">
+            <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+              <ClipboardList size={20} className="text-[var(--lavender-deep)]" />
+            </div>
+            <h1 className="font-semibold text-2xl text-white">
               Step 10: Daily Inventory
             </h1>
           </div>
-          <p className="neo-mono text-sm ml-11">
+          <p className="text-sm text-white/90 ml-13 pl-1 italic">
             &ldquo;Continued to take personal inventory and when we were wrong promptly admitted it.&rdquo;
           </p>
         </motion.div>
@@ -343,12 +349,11 @@ export default function InventoryPage() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="border-4 border-black bg-[var(--coral)] p-4 mb-6"
-              style={{ boxShadow: "8px 8px 0px 0px black" }}
+              className="forest-card p-4 mb-6 bg-gradient-to-r from-[var(--coral)] to-[var(--coral-warm)] border-[var(--coral)]"
             >
               <div className="flex items-center gap-3">
-                <div className="h-4 w-4 bg-black" />
-                <span className="neo-title text-sm text-[var(--black)]">{error}</span>
+                <div className="h-2 w-2 bg-white rounded-full" />
+                <span className="font-medium text-sm text-white">{error}</span>
               </div>
             </motion.div>
           )}
@@ -359,23 +364,23 @@ export default function InventoryPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="neo-card p-4 mb-6 bg-[var(--cream)]"
+            className="forest-card p-4 mb-6 bg-white"
           >
             <div className="flex items-center justify-between">
               <button
                 onClick={() => navigateToEntry('prev')}
                 disabled={selectedDate === allEntries[allEntries.length - 1]?.date && viewMode === 'browse'}
-                className="neo-button py-2 px-3 disabled:opacity-30 disabled:cursor-not-allowed"
+                className="p-2 rounded-xl bg-[var(--leaf-dew)] hover:bg-[var(--forest-pale)]/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <ChevronLeft size={20} strokeWidth={3} />
+                <ChevronLeft size={20} className="text-[var(--forest-deep)]" />
               </button>
               
               <div className="text-center">
-                <p className="neo-title text-sm">
-                  {isViewingToday ? "TODAY" : formatDate(selectedDate || todayKey)}
+                <p className="font-semibold text-sm text-[var(--forest-deep)]">
+                  {isViewingToday ? "Today" : formatDate(selectedDate || todayKey)}
                 </p>
                 {!isViewingToday && (
-                  <p className="neo-mono text-xs text-[var(--black)]/60">
+                  <p className="text-xs text-[var(--earth-wood)]">
                     {getDaysAgo(selectedDate || '')}
                   </p>
                 )}
@@ -384,20 +389,22 @@ export default function InventoryPage() {
               <button
                 onClick={() => navigateToEntry('next')}
                 disabled={isViewingToday}
-                className="neo-button py-2 px-3 disabled:opacity-30 disabled:cursor-not-allowed"
+                className="p-2 rounded-xl bg-[var(--leaf-dew)] hover:bg-[var(--forest-pale)]/30 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                <ChevronRight size={20} strokeWidth={3} />
+                <ChevronRight size={20} className="text-[var(--forest-deep)]" />
               </button>
             </div>
 
             {/* Date Quick Select */}
-            <div className="mt-4 pt-4 border-t-2 border-dashed border-black/20">
-              <p className="neo-mono text-xs mb-2 text-[var(--black)]/60">JUMP TO:</p>
+            <div className="mt-4 pt-4 border-t border-[var(--earth-sand)]">
+              <p className="text-xs mb-3 text-[var(--earth-wood)] font-medium">Jump to:</p>
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => { setViewMode('today'); setSelectedDate(null); setEditMode(false); }}
-                  className={`neo-mono text-xs px-3 py-1.5 border-3 border-black ${
-                    isViewingToday ? 'bg-black text-white' : 'bg-[var(--white)] hover:bg-[var(--cream)]'
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
+                    isViewingToday 
+                      ? 'bg-[var(--forest-mid)] text-white border-[var(--forest-mid)]' 
+                      : 'bg-white text-[var(--forest-deep)] border-[var(--earth-sand)] hover:border-[var(--forest-pale)]'
                   }`}
                 >
                   Today
@@ -406,8 +413,10 @@ export default function InventoryPage() {
                   <button
                     key={entry.date}
                     onClick={() => { setSelectedDate(entry.date); setViewMode('browse'); setEditMode(false); }}
-                    className={`neo-mono text-xs px-3 py-1.5 border-3 border-black ${
-                      selectedDate === entry.date ? 'bg-black text-white' : 'bg-[var(--white)] hover:bg-[var(--cream)]'
+                    className={`text-xs px-3 py-1.5 rounded-full border transition-all ${
+                      selectedDate === entry.date 
+                        ? 'bg-[var(--forest-mid)] text-white border-[var(--forest-mid)]' 
+                        : 'bg-white text-[var(--forest-deep)] border-[var(--earth-sand)] hover:border-[var(--forest-pale)]'
                     }`}
                   >
                     {getDaysAgo(entry.date)}
@@ -422,21 +431,21 @@ export default function InventoryPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="neo-card p-6 mb-6"
+          className="forest-card p-6 mb-6"
         >
-          <div className="flex items-center gap-2 mb-6 pb-4 border-b-4 border-black">
-            <Calendar size={18} strokeWidth={3} />
-            <span className="neo-title text-lg">
-              {isViewingToday ? "TODAY" : formatDate(selectedDate || todayKey)}
+          <div className="flex items-center gap-2 mb-6 pb-4 border-b border-[var(--earth-sand)]">
+            <Calendar size={18} className="text-[var(--forest-light)]" />
+            <span className="font-semibold text-lg text-[var(--forest-deep)]">
+              {isViewingToday ? "Today" : formatDate(selectedDate || todayKey)}
             </span>
             {viewingEntry && (
-              <span className="ml-auto flex items-center gap-1 neo-mono text-xs text-[var(--mint)]">
-                <CheckCircle size={14} /> SAVED
+              <span className="ml-auto flex items-center gap-1 text-xs text-[var(--mint)] font-medium">
+                <CheckCircle size={14} /> Saved
               </span>
             )}
             {!isViewingToday && !viewingEntry && (
-              <span className="ml-auto neo-mono text-xs text-[var(--black)]/40">
-                NO ENTRY
+              <span className="ml-auto text-xs text-[var(--earth-wood)]">
+                No entry
               </span>
             )}
           </div>
@@ -454,12 +463,13 @@ export default function InventoryPage() {
                   >
                     <label className="block mb-2">
                       <span 
-                        className="neo-mono text-xs px-2 py-0.5 border-3 border-black inline-block mb-1"
-                        style={{ background: prompt.color }}
+                        className="text-xs px-3 py-1 rounded-full font-medium inline-flex items-center gap-1.5 mb-2"
+                        style={{ background: prompt.color, color: 'var(--forest-deep)' }}
                       >
+                        <span>{prompt.icon}</span>
                         {prompt.label}
                       </span>
-                      <span className="block neo-title text-sm">{prompt.question}</span>
+                      <span className="block text-sm text-[var(--forest-deep)] font-medium">{prompt.question}</span>
                     </label>
                     <input
                       type="text"
@@ -467,25 +477,25 @@ export default function InventoryPage() {
                       onChange={(e) => setValues(prev => ({ ...prev, [prompt.key]: e.target.value }))}
                       placeholder={prompt.placeholder}
                       maxLength={200}
-                      className="neo-input w-full text-sm"
+                      className="forest-input w-full text-sm"
                     />
                   </motion.div>
                 ))}
               </div>
 
               {/* Save/Cancel Buttons */}
-              <div className="mt-6 pt-4 border-t-2 border-dashed border-black/20 flex gap-3">
+              <div className="mt-6 pt-4 border-t border-[var(--earth-sand)] flex gap-3">
                 <motion.button
                   whileHover={!saving ? { scale: 1.02 } : {}}
                   whileTap={!saving ? { scale: 0.98 } : {}}
                   onClick={handleSave}
                   disabled={saving || !hasChanges()}
-                  className={`neo-button py-3 flex-1 ${
+                  className={`flex-1 py-3 px-6 rounded-full font-medium flex items-center justify-center gap-2 transition-all ${
                     saved 
-                      ? "bg-[var(--mint)]" 
+                      ? "bg-[var(--mint)] text-[var(--forest-deep)]" 
                       : hasChanges()
-                        ? "neo-button-primary"
-                        : "bg-[var(--gray-disabled)] cursor-not-allowed"
+                        ? "forest-button"
+                        : "bg-[var(--earth-sand)] text-[var(--earth-wood)] cursor-not-allowed"
                   }`}
                 >
                   {saving ? (
@@ -493,17 +503,17 @@ export default function InventoryPage() {
                       <motion.span 
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="inline-block h-4 w-4 border-3 border-black border-t-transparent"
+                        className="inline-block h-4 w-4 border-2 border-[var(--forest-deep)] border-t-transparent rounded-full"
                       />
-                      SAVING...
+                      Saving...
                     </span>
                   ) : saved ? (
                     <>
-                      <CheckCircle size={16} strokeWidth={3} /> SAVED!
+                      <CheckCircle size={16} /> Saved!
                     </>
                   ) : (
                     <>
-                      <Save size={16} strokeWidth={3} /> {isViewingToday ? "SAVE" : "UPDATE"}
+                      <Save size={16} /> {isViewingToday ? "Save" : "Update"}
                     </>
                   )}
                 </motion.button>
@@ -513,9 +523,9 @@ export default function InventoryPage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleCancelEdit}
-                    className="neo-button py-3 px-6 bg-[var(--gray-disabled)]"
+                    className="py-3 px-6 rounded-full border border-[var(--earth-sand)] bg-white text-[var(--forest-deep)] hover:bg-[var(--leaf-dew)] transition-colors font-medium"
                   >
-                    <X size={16} strokeWidth={3} /> CANCEL
+                    <X size={16} /> Cancel
                   </motion.button>
                 )}
               </div>
@@ -531,18 +541,19 @@ export default function InventoryPage() {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      className={!viewingEntry[prompt.key] ? 'opacity-50' : ''}
+                      className={!viewingEntry[prompt.key] ? 'opacity-40' : ''}
                     >
                       <div className="flex items-start gap-3">
                         <span 
-                          className="neo-mono text-xs px-2 py-0.5 border-3 border-black shrink-0"
-                          style={{ background: prompt.color }}
+                          className="text-xs px-3 py-1 rounded-full font-medium shrink-0 flex items-center gap-1"
+                          style={{ background: prompt.color, color: 'var(--forest-deep)' }}
                         >
+                          <span>{prompt.icon}</span>
                           {prompt.label}
                         </span>
                         <div className="flex-1">
-                          <p className="neo-title text-sm mb-1">{prompt.question}</p>
-                          <p className="neo-mono text-sm text-[var(--black)]/70">
+                          <p className="text-sm font-medium text-[var(--forest-deep)] mb-1">{prompt.question}</p>
+                          <p className="text-sm text-[var(--earth-wood)]">
                             {viewingEntry[prompt.key] || "—"}
                           </p>
                         </div>
@@ -551,35 +562,35 @@ export default function InventoryPage() {
                   ))}
                   
                   {/* Edit Button for Past Entries */}
-                  <div className="pt-4 border-t-2 border-dashed border-black/20">
+                  <div className="pt-4 border-t border-[var(--earth-sand)]">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleEdit}
-                      className="neo-button py-3 w-full bg-[var(--butter)]"
+                      className="w-full py-3 px-6 rounded-full bg-[var(--butter)] text-[var(--forest-deep)] font-medium flex items-center justify-center gap-2 hover:bg-[var(--butter-warm)] transition-colors"
                     >
-                      <Edit2 size={16} strokeWidth={3} /> EDIT THIS ENTRY
+                      <Edit2 size={16} /> Edit This Entry
                     </motion.button>
                   </div>
                 </>
               ) : (
                 <>
                   <div className="text-center py-12">
-                    <History size={48} className="mx-auto mb-4 text-[var(--black)]/20" />
-                    <p className="neo-mono text-sm text-[var(--black)]/50 mb-4">
+                    <History size={48} className="mx-auto mb-4 text-[var(--forest-pale)]" />
+                    <p className="text-sm text-[var(--earth-wood)] mb-4">
                       No inventory was recorded for this day.
                     </p>
                   </div>
                   
                   {/* Create Entry Button for Empty Days */}
-                  <div className="pt-4 border-t-2 border-dashed border-black/20">
+                  <div className="pt-4 border-t border-[var(--earth-sand)]">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleEdit}
-                      className="neo-button py-3 w-full neo-button-primary"
+                      className="w-full py-3 px-6 rounded-full forest-button flex items-center justify-center gap-2"
                     >
-                      <Edit2 size={16} strokeWidth={3} /> ADD ENTRY FOR THIS DAY
+                      <Edit2 size={16} /> Add Entry for This Day
                     </motion.button>
                   </div>
                 </>
@@ -594,22 +605,25 @@ export default function InventoryPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="neo-card p-6 bg-[var(--mint)]/20"
+            className="forest-card p-6 bg-gradient-to-br from-[var(--mint-cool)]/20 to-white"
           >
-            <h3 className="neo-title text-lg mb-4">YOUR INVENTORY HISTORY</h3>
+            <h3 className="font-semibold text-lg mb-4 text-[var(--forest-deep)] flex items-center gap-2">
+              <Sparkles size={18} className="text-[var(--mint)]" />
+              Your Inventory History
+            </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="border-3 border-black bg-[var(--white)] p-4 text-center">
-                <p className="neo-title text-3xl">{allEntries.length}</p>
-                <p className="neo-mono text-xs">Total Entries</p>
+              <div className="rounded-2xl bg-white p-4 text-center border border-[var(--earth-sand)]">
+                <p className="text-3xl font-bold text-[var(--forest-mid)]">{allEntries.length}</p>
+                <p className="text-xs text-[var(--earth-wood)]">Total Entries</p>
               </div>
-              <div className="border-3 border-black bg-[var(--white)] p-4 text-center">
-                <p className="neo-title text-3xl">
+              <div className="rounded-2xl bg-white p-4 text-center border border-[var(--earth-sand)]">
+                <p className="text-3xl font-bold text-[var(--forest-mid)]">
                   {allEntries.filter(e => e.gratitude).length}
                 </p>
-                <p className="neo-mono text-xs">Gratitude Entries</p>
+                <p className="text-xs text-[var(--earth-wood)]">Gratitude Entries</p>
               </div>
             </div>
-            <p className="neo-mono text-xs text-[var(--black)]/60 mt-4 text-center">
+            <p className="text-xs text-[var(--earth-wood)] mt-4 text-center">
               Keep coming back! Progress, not perfection.
             </p>
           </motion.div>

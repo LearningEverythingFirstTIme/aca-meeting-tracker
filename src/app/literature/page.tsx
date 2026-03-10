@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookOpen, ChevronDown, ChevronUp } from "lucide-react";
+import { BookOpen, ChevronDown, ChevronUp, Heart } from "lucide-react";
 import { literatureData, categories, type LiteratureItem } from "@/lib/literature-data";
 import { Navigation } from "@/components/navigation";
 
@@ -15,30 +15,30 @@ function LiteratureCard({ item }: { item: LiteratureItem }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="neo-card overflow-hidden"
+      className="forest-card overflow-hidden"
       style={{ 
-        borderLeft: `6px solid ${category?.color || "var(--butter)"}` 
+        borderLeft: `4px solid ${category?.color || "var(--butter-warm)"}` 
       }}
     >
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full p-6 flex items-center justify-between text-left hover:bg-[var(--cream)]/30 transition-colors"
+        className="w-full p-6 flex items-center justify-between text-left hover:bg-[var(--earth-cream)]/30 transition-colors"
       >
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-2">
             <span 
-              className="neo-badge text-xs"
-              style={{ backgroundColor: category?.color || "var(--butter)" }}
+              className="text-xs font-medium px-3 py-1 rounded-full"
+              style={{ backgroundColor: category?.color || "var(--butter-warm)", color: 'var(--forest-deep)' }}
             >
-              {category?.label.toUpperCase()}
+              {category?.label}
             </span>
             {item.source && (
-              <span className="neo-mono text-xs text-[var(--black)]/50">
+              <span className="text-xs text-[var(--earth-wood)]">
                 {item.source}
               </span>
             )}
           </div>
-          <h3 className="neo-title text-xl text-[var(--black)]">{item.title}</h3>
+          <h3 className="font-semibold text-lg text-[var(--forest-deep)]">{item.title}</h3>
         </div>
         <motion.div
           animate={{ rotate: isExpanded ? 180 : 0 }}
@@ -46,9 +46,9 @@ function LiteratureCard({ item }: { item: LiteratureItem }) {
           className="flex-shrink-0 ml-4"
         >
           {isExpanded ? (
-            <ChevronUp size={24} strokeWidth={3} className="text-[var(--black)]" />
+            <ChevronUp size={24} className="text-[var(--forest-light)]" />
           ) : (
-            <ChevronDown size={24} strokeWidth={3} className="text-[var(--black)]" />
+            <ChevronDown size={24} className="text-[var(--forest-light)]" />
           )}
         </motion.div>
       </button>
@@ -62,16 +62,16 @@ function LiteratureCard({ item }: { item: LiteratureItem }) {
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 pt-2 border-t-3 border-black/10">
+            <div className="px-6 pb-6 pt-2 border-t border-[var(--earth-sand)]">
               <div className="prose prose-lg max-w-none">
                 {item.content.map((paragraph, index) => (
                   <p 
                     key={index} 
-                    className={`text-[var(--black)] leading-relaxed ${
+                    className={`text-[var(--forest-deep)] leading-relaxed ${
                       paragraph === "" 
                         ? "h-4" 
-                        : paragraph.startsWith("STEP") || paragraph.startsWith("FROM PAGE")
-                        ? "neo-title text-lg mt-6 mb-2 text-[var(--black)]/80"
+                        : paragraph.startsWith("STEP") || paragraph.startsWith("TRADITION") || paragraph.startsWith("CONCEPT") || paragraph.startsWith("FROM PAGE") || paragraph.startsWith("THE")
+                        ? "font-semibold text-base mt-6 mb-2 text-[var(--forest-mid)]"
                         : "mb-4"
                     }`}
                   >
@@ -100,13 +100,13 @@ function CategoryFilter({
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         onClick={() => onCategoryChange(null)}
-        className={`neo-button text-sm ${
+        className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
           activeCategory === null 
-            ? "bg-[var(--butter)]" 
-            : "bg-[var(--white)]"
+            ? "bg-[var(--forest-mid)] text-white border-[var(--forest-mid)]" 
+            : "bg-white text-[var(--forest-deep)] border-[var(--earth-sand)] hover:border-[var(--forest-pale)]"
         }`}
       >
-        ALL
+        All
       </motion.button>
       {categories.map((category) => (
         <motion.button
@@ -114,14 +114,20 @@ function CategoryFilter({
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => onCategoryChange(category.id)}
-          className={`neo-button text-sm transition-colors`}
+          className={`px-4 py-2 rounded-full text-sm font-medium border transition-all`}
           style={{
             backgroundColor: activeCategory === category.id 
               ? category.color 
-              : "white"
+              : "white",
+            borderColor: activeCategory === category.id 
+              ? category.color 
+              : "var(--earth-sand)",
+            color: activeCategory === category.id 
+              ? 'var(--forest-deep)' 
+              : 'var(--forest-deep)'
           }}
         >
-          {category.label.toUpperCase()}
+          {category.label}
         </motion.button>
       ))}
     </div>
@@ -144,7 +150,7 @@ export default function LiteraturePage() {
       })).filter(group => group.items.length > 0);
 
   return (
-    <div className="min-h-screen bg-[var(--cream)]">
+    <div className="min-h-screen bg-gradient-to-b from-[var(--butter)]/30 via-[var(--leaf-dew)] to-[var(--earth-cream)]">
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-4 md:px-8 py-8">
@@ -156,17 +162,16 @@ export default function LiteraturePage() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div 
-              className="p-3 border-4 border-black"
-              style={{ backgroundColor: "var(--periwinkle)" }}
+              className="p-3 rounded-2xl bg-gradient-to-br from-[var(--periwinkle)] to-[var(--lavender-soft)] shadow-sm"
             >
-              <BookOpen size={32} strokeWidth={3} className="text-[var(--black)]" />
+              <BookOpen size={32} className="text-[var(--forest-deep)]" />
             </div>
             <div>
-              <h1 className="neo-title text-3xl md:text-4xl text-[var(--black)]">
-                LITERATURE
+              <h1 className="font-semibold text-3xl md:text-4xl text-[var(--forest-deep)]">
+                Literature
               </h1>
-              <p className="neo-mono text-sm text-[var(--black)]/60">
-                AA READINGS, PRAYERS & PROMISES
+              <p className="text-sm text-[var(--earth-wood)]">
+                ACA Readings, Prayers & Promises
               </p>
             </div>
           </div>
@@ -190,15 +195,15 @@ export default function LiteraturePage() {
             groupedByCategory?.map((group) => (
               <div key={group.id} className="mb-8">
                 <div 
-                  className="flex items-center gap-2 mb-4 pb-2 border-b-4 border-black"
+                  className="flex items-center gap-2 mb-4 pb-2 border-b-2"
                   style={{ borderColor: group.color }}
                 >
                   <div 
-                    className="w-4 h-4 border-3 border-black"
+                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: group.color }}
                   />
-                  <h2 className="neo-title text-xl text-[var(--black)]">
-                    {group.label.toUpperCase()}
+                  <h2 className="font-semibold text-lg text-[var(--forest-deep)]">
+                    {group.label}
                   </h2>
                 </div>
                 <div className="space-y-4">
@@ -218,7 +223,7 @@ export default function LiteraturePage() {
             animate={{ opacity: 1 }}
             className="text-center py-16"
           >
-            <p className="neo-mono text-[var(--black)]/50">
+            <p className="text-[var(--earth-wood)]">
               No literature found in this category.
             </p>
           </motion.div>
@@ -229,13 +234,14 @@ export default function LiteraturePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-16 pt-8 border-t-4 border-black/10 text-center"
+          className="mt-16 pt-8 border-t border-[var(--earth-sand)] text-center"
         >
-          <p className="neo-mono text-xs text-[var(--black)]/40">
-            &ldquo;Rarely have we seen a person fail who has thoroughly followed our path.&rdquo;
+          <Heart size={20} className="mx-auto mb-3 text-[var(--coral)]" />
+          <p className="text-xs text-[var(--earth-wood)] italic">
+            &ldquo;We are not alone anymore.&rdquo;
           </p>
-          <p className="neo-mono text-xs text-[var(--black)]/30 mt-2">
-            — Alcoholics Anonymous, Page 58
+          <p className="text-xs text-[var(--earth-wood)]/60 mt-2">
+            — Adult Children of Alcoholics & Dysfunctional Families
           </p>
         </motion.div>
       </main>
