@@ -6,13 +6,11 @@ import { motion } from "framer-motion";
 import { Home, DollarSign, BookOpen, LogOut, Heart, ClipboardList, Sun, Moon, Leaf } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
 import { useTheme } from "@/components/theme-provider";
-import { useEffect, useState } from "react";
 
 export const Navigation = () => {
   const pathname = usePathname();
   const { logout, user } = useAuth();
   const { resolvedTheme, toggleTheme } = useTheme();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const navItems = [
     { href: "/", label: "Meetings", icon: Home },
@@ -21,46 +19,8 @@ export const Navigation = () => {
     { href: "/literature", label: "Literature", icon: BookOpen },
   ];
 
-  // Grass sway effect on mouse move
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const getSwayStyle = (index: number) => {
-    const offset = index * 50;
-    const distanceFromMouse = Math.abs(mousePosition.x - offset);
-    const swayAmount = Math.max(0, 1 - distanceFromMouse / 500) * 5;
-    return {
-      transform: `rotate(${swayAmount}deg)`,
-    };
-  };
-
   return (
     <div className="forest-nav sticky top-0 z-50">
-      {/* Decorative grass blades that sway */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 overflow-visible pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute bottom-0 w-1 bg-gradient-to-t from-[var(--forest-mid)] to-[var(--leaf-sage)] rounded-t-full opacity-30"
-            style={{
-              left: `${i * 5}%`,
-              height: `${20 + Math.random() * 30}px`,
-              transformOrigin: "bottom center",
-            }}
-            animate={{
-              rotate: typeof window !== "undefined" ? [0, (mousePosition.x - window.innerWidth / 2) / 100, 0] : 0,
-            }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-          />
-        ))}
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop & Tablet Navigation */}
         <div className="hidden md:flex items-center justify-between py-4 gap-4">
@@ -75,12 +35,9 @@ export const Navigation = () => {
               >
                 <Leaf className="w-5 h-5 text-white" />
               </motion.div>
-              <span className="forest-title text-xl text-[var(--forest-deep)] hidden lg:block">
-                Forest Sanctuary
-              </span>
             </Link>
 
-            {navItems.map((item, index) => {
+            {navItems.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link key={item.href} href={item.href}>
@@ -92,7 +49,6 @@ export const Navigation = () => {
                         ? "bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)] text-white shadow-lg shadow-[var(--forest-mid)]/30" 
                         : "text-[var(--forest-mid)] hover:bg-[var(--leaf-dew)]"
                     }`}
-                    style={getSwayStyle(index)}
                   >
                     <item.icon size={18} strokeWidth={2.5} />
                     <span className="hidden lg:inline">{item.label}</span>

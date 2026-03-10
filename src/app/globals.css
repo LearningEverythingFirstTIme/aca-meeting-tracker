@@ -37,6 +37,19 @@
     --accent-lavender: #d4b8e8;
     --accent-sky: #a8d5e5;
     
+    /* Legacy Color Aliases for backwards compatibility */
+    --lavender: #9b7cb6;
+    --lavender-soft: #d4b8e8;
+    --lavender-deep: #7a5a94;
+    --periwinkle: #a8b8e8;
+    --coral: #e89880;
+    --coral-warm: #f0b8a8;
+    --coral-pale: #f8dcd4;
+    --mint: #7da069;
+    --mint-cool: #a8d5ba;
+    --butter: #f4e4a8;
+    --butter-warm: #f8f0c8;
+    
     /* States */
     --success: #7da069;
     --warning: #e8b87d;
@@ -64,6 +77,19 @@
     
     --sky-mist: #1a2f24;
     --sky-soft: #0f1f18;
+    
+    /* Dark mode legacy colors */
+    --lavender: #b8a0d0;
+    --lavender-soft: #5a4a6a;
+    --lavender-deep: #d4c8e8;
+    --periwinkle: #7a8ab8;
+    --coral: #c08070;
+    --coral-warm: #a06050;
+    --coral-pale: #3a2a24;
+    --mint: #5a8a50;
+    --mint-cool: #3a6a40;
+    --butter: #8a7a40;
+    --butter-warm: #5a4a20;
   }
 }
 

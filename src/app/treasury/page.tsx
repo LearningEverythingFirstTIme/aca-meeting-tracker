@@ -144,12 +144,12 @@ export default function TreasuryPage() {
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="forest-card bg-gradient-to-r from-[var(--lavender)] to-[var(--lavender-soft)] p-6"
+            className="forest-card bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)] p-6"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                  <Wallet size={20} className="text-[var(--lavender-deep)]" />
+                  <Wallet size={20} className="text-[var(--forest-mid)]" />
                 </div>
                 <h1 className="font-semibold text-2xl text-white">Treasury</h1>
               </div>

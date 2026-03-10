@@ -327,11 +327,11 @@ export default function InventoryPage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="forest-card p-6 mb-6 bg-gradient-to-r from-[var(--lavender)] to-[var(--lavender-soft)]"
+          className="forest-card p-6 mb-6 bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)]"
         >
           <div className="flex items-center gap-3 mb-2">
             <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-              <ClipboardList size={20} className="text-[var(--lavender-deep)]" />
+              <ClipboardList size={20} className="text-[var(--forest-mid)]" />
             </div>
             <h1 className="font-semibold text-2xl text-white">
               Step 10: Daily Inventory
