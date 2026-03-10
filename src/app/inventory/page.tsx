@@ -320,7 +320,7 @@ export default function InventoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[var(--lavender-soft)]/30 via-[var(--leaf-dew)] to-[var(--earth-cream)]">
+    <div className="min-h-screen">
       <Navigation />
       <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Header */}

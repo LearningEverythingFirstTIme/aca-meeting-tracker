@@ -10,7 +10,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-4 bg-gradient-to-b from-[var(--leaf-dew)] to-[var(--earth-cream)]">
+      <main className="flex min-h-screen items-center justify-center px-4 min-h-screen">
         <motion.div 
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -32,7 +32,7 @@ export default function Home() {
 
   if (configError) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-4 py-8 bg-gradient-to-b from-[var(--leaf-dew)] to-[var(--earth-cream)]">
+      <main className="flex min-h-screen items-center justify-center px-4 py-8 min-h-screen">
         <motion.div 
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -60,7 +60,7 @@ export default function Home() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-4 py-8 bg-gradient-to-b from-[var(--leaf-dew)] to-[var(--earth-cream)]">
+      <main className="flex min-h-screen items-center justify-center px-4 py-8 min-h-screen">
         <AuthForm />
       </main>
     );

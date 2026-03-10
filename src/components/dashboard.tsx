@@ -932,7 +932,7 @@ export const Dashboard = () => {
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.15, duration: 0.4, ease: "easeOut" }}
-            className="rounded-3xl bg-gradient-to-br from-[var(--sky)] to-[#a8d5f0] p-1 shadow-lg shadow-[var(--sky)]/20"
+            className="rounded-3xl bg-gradient-to-br from-[var(--forest-mid)] to-[var(--forest-light)] p-1 shadow-lg shadow-[var(--forest-mid)]/20"
           >
             <div className="rounded-[20px] bg-[var(--white)]/90 p-4 backdrop-blur-sm">
               <h2 className="forest-title text-xl text-[var(--forest-deep)]">Your Meetings</h2>
@@ -1021,7 +1021,7 @@ export const Dashboard = () => {
                               whileTap={{ scale: 0.97 }}
                               type="button"
                               onClick={() => setEditingMeetingId(meeting.id)}
-                              className="rounded-full bg-gradient-to-r from-[var(--sky)] to-[#7ec8e8] px-4 py-2 text-xs font-medium text-[var(--forest-deep)] shadow-md shadow-[var(--sky)]/20"
+                              className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                             >
                               <Edit2 size={12} strokeWidth={2} className="inline mr-1" /> Edit
                             </motion.button>
@@ -1214,7 +1214,7 @@ export const Dashboard = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 + 0.5, duration: 0.3 }}
                   key={entry.id}
-                  className="flex items-center justify-between rounded-2xl border border-[var(--earth-sand)] bg-[var(--lavender)]/30 px-4 py-2"
+                  className="flex items-center justify-between rounded-2xl border border-[var(--earth-sand)] bg-[var(--leaf-dew)]/50 px-4 py-2"
                 >
                   <div className="min-w-0 flex-1">
                     <span className="block text-xs font-medium text-[var(--forest-deep)]">{meeting?.name ?? entry.meetingName}</span>

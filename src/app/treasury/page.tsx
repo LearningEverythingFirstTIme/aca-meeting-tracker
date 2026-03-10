@@ -135,7 +135,7 @@ export default function TreasuryPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[var(--leaf-dew)] to-[var(--earth-cream)]">
+    <main className="min-h-screen">
       <Navigation />
       
       <div className="px-4 py-8 md:px-8">
