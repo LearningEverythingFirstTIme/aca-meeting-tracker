@@ -150,7 +150,7 @@ export default function LiteraturePage() {
       })).filter(group => group.items.length > 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[var(--butter)]/30 via-[var(--leaf-dew)] to-[var(--earth-cream)]">
+    <div className="min-h-screen">
       <Navigation />
       
       <main className="max-w-4xl mx-auto px-4 md:px-8 py-8">
@@ -162,9 +162,9 @@ export default function LiteraturePage() {
         >
           <div className="flex items-center gap-3 mb-4">
             <div 
-              className="p-3 rounded-2xl bg-gradient-to-br from-[var(--periwinkle)] to-[var(--lavender-soft)] shadow-sm"
+              className="p-3 rounded-2xl bg-gradient-to-br from-[var(--forest-mid)] to-[var(--forest-light)] shadow-sm"
             >
-              <BookOpen size={32} className="text-[var(--forest-deep)]" />
+              <BookOpen size={32} className="text-white" />
             </div>
             <div>
               <h1 className="font-semibold text-3xl md:text-4xl text-[var(--forest-deep)]">

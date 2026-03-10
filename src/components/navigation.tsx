@@ -3,14 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Home, DollarSign, BookOpen, LogOut, Heart, ClipboardList, Sun, Moon, Leaf } from "lucide-react";
+import { Home, DollarSign, BookOpen, LogOut, Heart, ClipboardList, Leaf } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
-import { useTheme } from "@/components/theme-provider";
 
 export const Navigation = () => {
   const pathname = usePathname();
   const { logout, user } = useAuth();
-  const { resolvedTheme, toggleTheme } = useTheme();
 
   const navItems = [
     { href: "/", label: "Meetings", icon: Home },
@@ -58,22 +56,8 @@ export const Navigation = () => {
             })}
           </div>
           
-          {/* Right: Theme, Help, Logout */}
+          {/* Right: Help, Logout */}
           <div className="flex items-center gap-3">
-            {/* Theme Toggle */}
-            <motion.button
-              whileHover={{ scale: 1.1, rotate: 15 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleTheme}
-              className="w-10 h-10 rounded-full bg-[var(--earth-cream)] border-2 border-[var(--earth-sand)] flex items-center justify-center text-[var(--forest-mid)] hover:bg-[var(--leaf-dew)] transition-colors"
-            >
-              {resolvedTheme === "dark" ? (
-                <Moon size={18} />
-              ) : (
-                <Sun size={18} />
-              )}
-            </motion.button>
-
             {/* Help Button */}
             <Link href="/help">
               <motion.div
@@ -134,14 +118,6 @@ export const Navigation = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1.5">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={toggleTheme}
-              className="w-10 h-10 rounded-full bg-[var(--earth-cream)] flex items-center justify-center text-[var(--forest-mid)]"
-            >
-              {resolvedTheme === "dark" ? <Moon size={18} /> : <Sun size={18} />}
-            </motion.button>
-
             <Link href="/help">
               <motion.div
                 whileTap={{ scale: 0.9 }}

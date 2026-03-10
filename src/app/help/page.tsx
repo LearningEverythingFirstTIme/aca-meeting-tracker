@@ -25,18 +25,19 @@ const cardVariants = {
 
 export default function HelpPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[var(--leaf-dew)] to-[var(--earth-cream)]">
+    <div className="min-h-screen">
       <Navigation />
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="forest-card p-6 mb-6 border-[var(--coral)] bg-gradient-to-r from-[var(--coral)] to-[var(--coral-warm)]"
+          className="forest-card p-6 mb-6 bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)]"
+          style={{ border: "1px solid rgba(90, 147, 112, 0.3)" }}
         >
           <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-              <Heart size={20} className="text-[var(--coral)]" />
+            <div className="h-10 w-10 bg-white/20 rounded-full flex items-center justify-center">
+              <Heart size={20} className="text-white" fill="white" />
             </div>
             <h1 className="font-semibold text-2xl text-white">
               You Are Not Alone
@@ -61,7 +62,7 @@ export default function HelpPage() {
             className="forest-card p-6 hover:scale-[1.02] transition-all cursor-pointer block group"
           >
             <div className="flex items-start gap-4">
-              <div className="h-12 w-12 bg-gradient-to-br from-[var(--coral)] to-[var(--coral-warm)] rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
+              <div className="h-12 w-12 bg-gradient-to-br from-[var(--forest-mid)] to-[var(--forest-light)] rounded-2xl flex items-center justify-center shrink-0 shadow-sm">
                 <Phone size={24} className="text-white" />
               </div>
               <div className="flex-1">
@@ -120,10 +121,10 @@ export default function HelpPage() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
-          className="forest-card p-6 mb-8 border-[var(--coral)] bg-gradient-to-br from-white to-[var(--coral-pale)]/30"
+          className="forest-card p-6 mb-8 bg-gradient-to-br from-[var(--sunlight-glow)] to-[var(--leaf-dew)]"
         >
           <div className="flex items-start gap-4">
-            <div className="h-10 w-10 bg-gradient-to-br from-[var(--coral)] to-[var(--coral-warm)] rounded-xl flex items-center justify-center shrink-0 shadow-sm">
+            <div className="h-10 w-10 bg-gradient-to-br from-[var(--forest-mid)] to-[var(--leaf-moss)] rounded-xl flex items-center justify-center shrink-0 shadow-sm">
               <AlertCircle size={20} className="text-white" />
             </div>
             <div>

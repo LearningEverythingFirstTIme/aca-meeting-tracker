@@ -1,95 +1,71 @@
 @import "tailwindcss";
 
 /* ========================================
-   FOREST SANCTUARY DESIGN SYSTEM
-   A tranquil, welcoming space for healing
+   WOODLAND PATH DESIGN SYSTEM
+   Warm, welcoming, and calming
+   Like a gentle morning walk through a
+   familiar forest in your hometown.
    ======================================== */
 
 @layer theme {
   :root {
-    /* Primary Forest Palette */
-    --forest-deep: #1a3d2e;
-    --forest-mid: #2d5a45;
-    --forest-light: #4a7c5e;
-    --forest-pale: #8fbfa3;
-    
-    /* Warm Earth Tones */
-    --earth-bark: #5d4037;
-    --earth-wood: #8d6e63;
-    --earth-sand: #d7ccc8;
-    --earth-cream: #f5f0e8;
-    --earth-warm: #faf6f1;
-    
+    /* Forest Greens — Warm & Living */
+    --forest-deep: #2c5f3f;
+    --forest-mid: #3d7a54;
+    --forest-light: #5a9370;
+    --forest-pale: #8ab89a;
+
+    /* Earth & Wood Tones — Grounding */
+    --earth-bark: #7a5c45;
+    --earth-wood: #a07858;
+    --earth-sand: #d4b896;
+    --earth-cream: #ede4d4;
+    --earth-warm: #f5ede0;
+
+    /* Warm Light — Dappled Sunlight */
+    --sunlight: #e8c87a;
+    --sunlight-pale: #f0d9a4;
+    --sunlight-glow: #faf3e0;
+
     /* Leaf & Nature Accents */
-    --leaf-sage: #9caf88;
-    --leaf-moss: #7da069;
-    --leaf-fresh: #a8d5ba;
-    --leaf-dew: #c8e6c9;
-    
-    /* Sky & Light */
-    --sky-mist: #e8f4f8;
-    --sky-soft: #f0f7f4;
-    
-    /* Accent Colors - Warm & Gentle */
-    --accent-sun: #f4d03f;
-    --accent-sunset: #e8b87d;
-    --accent-rose: #e8b4b4;
-    --accent-lavender: #d4b8e8;
-    --accent-sky: #a8d5e5;
-    
-    /* Legacy Color Aliases for backwards compatibility */
-    --lavender: #9b7cb6;
-    --lavender-soft: #d4b8e8;
-    --lavender-deep: #7a5a94;
-    --periwinkle: #a8b8e8;
-    --coral: #e89880;
-    --coral-warm: #f0b8a8;
-    --coral-pale: #f8dcd4;
-    --mint: #7da069;
-    --mint-cool: #a8d5ba;
-    --butter: #f4e4a8;
-    --butter-warm: #f8f0c8;
-    
-    /* States */
-    --success: #7da069;
-    --warning: #e8b87d;
-    --error: #d98880;
-    
-    /* Dark Mode - Deep Forest Night */
-    --night-bg: #0f1f18;
-    --night-card: #1a2f24;
-    --night-text: #e8f4f0;
-    --night-muted: #8fa399;
-  }
-  
-  /* Dark mode class-based switching */
-  .dark {
-    --forest-deep: #e8f4f0;
-    --forest-mid: #c8e6c9;
-    --forest-light: #8fbfa3;
-    --forest-pale: #4a7c5e;
-    
-    --earth-bark: #d7ccc8;
-    --earth-wood: #a1887f;
-    --earth-sand: #5d4037;
-    --earth-cream: #0f1f18;
-    --earth-warm: #1a2f24;
-    
-    --sky-mist: #1a2f24;
-    --sky-soft: #0f1f18;
-    
-    /* Dark mode legacy colors */
-    --lavender: #b8a0d0;
-    --lavender-soft: #5a4a6a;
-    --lavender-deep: #d4c8e8;
-    --periwinkle: #7a8ab8;
-    --coral: #c08070;
-    --coral-warm: #a06050;
-    --coral-pale: #3a2a24;
-    --mint: #5a8a50;
-    --mint-cool: #3a6a40;
-    --butter: #8a7a40;
-    --butter-warm: #5a4a20;
+    --leaf-sage: #8db89a;
+    --leaf-moss: #6da07a;
+    --leaf-fresh: #a8cdb8;
+    --leaf-dew: #d0e8da;
+
+    /* Warm Base */
+    --warm-white: #fdfaf4;
+    --warm-linen: #f8f4ed;
+
+    /* Gentle Accent Colors */
+    --accent-terra: #c47a5a;
+    --accent-sunset: #d4a07a;
+    --accent-rose: #c4907a;
+    --accent-rose-pale: #f0ddd8;
+    --accent-lavender: #c0b0d8;
+    --accent-sky: #a0c8d8;
+
+    /* Status */
+    --success: #5a9370;
+    --warning: #d4a07a;
+    --error: #b86060;
+
+    /* Legacy Aliases — kept for component compatibility */
+    --lavender: #a89ac8;
+    --lavender-soft: #d8d0e8;
+    --lavender-deep: #8878b0;
+    --periwinkle: #a8b4d8;
+    --coral: #c47a5a;
+    --coral-warm: #d49070;
+    --coral-pale: #f0ddd8;
+    --mint: #6da07a;
+    --mint-cool: #a8cdb8;
+    --butter: #e8c87a;
+    --butter-warm: #f0d9a4;
+
+    /* Sky */
+    --sky-mist: #e8f2ef;
+    --sky-soft: #f4f9f6;
   }
 }
 
@@ -97,27 +73,23 @@
    BASE STYLES
    ======================================== */
 
-* {
-  border-radius: 0;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background: linear-gradient(135deg, var(--earth-warm) 0%, var(--sky-soft) 50%, var(--earth-cream) 100%);
+  /* Layered warm forest light gradients:
+     Cool canopy green top-left, warm sunlit earth bottom-right */
+  background:
+    radial-gradient(ellipse 140% 55% at 12% -5%, rgba(200, 228, 210, 0.4) 0%, transparent 65%),
+    radial-gradient(ellipse 100% 55% at 88% 108%, rgba(228, 210, 180, 0.35) 0%, transparent 60%),
+    linear-gradient(165deg, #f8f5ee 0%, #eff5ef 35%, #f5f0e8 70%, #faf6ee 100%);
   background-attachment: fixed;
   color: var(--forest-deep);
   font-family: 'Nunito', 'Quicksand', system-ui, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
-  line-height: 1.6;
-}
-
-.dark body {
-  background: linear-gradient(135deg, var(--night-bg) 0%, #152a20 50%, var(--night-bg) 100%);
-  color: var(--night-text);
+  line-height: 1.65;
 }
 
 /* Custom Selection */
@@ -133,8 +105,8 @@ body {
 @utility forest-title {
   font-family: 'Quicksand', 'Nunito', sans-serif;
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
 }
 
 @utility forest-body {
@@ -154,31 +126,23 @@ body {
    ======================================== */
 
 @utility forest-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 24px;
-  border: 1px solid rgba(143, 191, 163, 0.3);
-  box-shadow: 
-    0 4px 6px -1px rgba(26, 61, 46, 0.05),
-    0 10px 15px -3px rgba(26, 61, 46, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.dark .forest-card {
-  background: rgba(26, 47, 36, 0.9);
-  border-color: rgba(143, 179, 163, 0.2);
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.3),
-    0 10px 15px -3px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 253, 247, 0.94);
+  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 1px solid rgba(195, 175, 145, 0.25);
+  box-shadow:
+    0 1px 3px rgba(100, 70, 40, 0.04),
+    0 4px 14px rgba(100, 70, 40, 0.07),
+    inset 0 1px 0 rgba(255, 252, 242, 0.7);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @utility forest-card-hover {
   &:hover {
-    transform: translateY(-4px) scale(1.01);
-    box-shadow: 
-      0 20px 25px -5px rgba(26, 61, 46, 0.1),
-      0 10px 10px -5px rgba(26, 61, 46, 0.04);
+    transform: translateY(-3px);
+    box-shadow:
+      0 8px 22px rgba(100, 70, 40, 0.1),
+      0 3px 8px rgba(100, 70, 40, 0.06);
   }
 }
 
@@ -186,7 +150,6 @@ body {
    BUTTONS
    ======================================== */
 
-/* Forest Button Base */
 .forest-button {
   background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-light) 100%);
   color: white;
@@ -198,9 +161,9 @@ body {
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    0 4px 6px -1px rgba(26, 61, 46, 0.2),
-    0 2px 4px -1px rgba(26, 61, 46, 0.1);
+  box-shadow:
+    0 3px 8px rgba(61, 122, 84, 0.25),
+    0 1px 3px rgba(61, 122, 84, 0.15);
   position: relative;
   overflow: hidden;
   display: inline-flex;
@@ -218,7 +181,7 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.15),
     transparent
   );
   transition: left 0.5s;
@@ -226,9 +189,9 @@ body {
 
 .forest-button:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 10px 20px -5px rgba(26, 61, 46, 0.3),
-    0 4px 8px -2px rgba(26, 61, 46, 0.2);
+  box-shadow:
+    0 8px 18px rgba(61, 122, 84, 0.3),
+    0 3px 8px rgba(61, 122, 84, 0.2);
 }
 
 .forest-button:hover::before {
@@ -237,24 +200,23 @@ body {
 
 .forest-button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px -1px rgba(26, 61, 46, 0.2);
+  box-shadow: 0 2px 4px rgba(61, 122, 84, 0.2);
 }
 
-/* Forest Button Variants */
 .forest-button-secondary {
   background: transparent;
   color: var(--forest-mid);
-  border: 2px solid var(--forest-pale);
+  border: 1.5px solid var(--earth-sand);
   box-shadow: none;
 }
 
 .forest-button-secondary:hover {
   background: var(--leaf-dew);
-  border-color: var(--forest-light);
+  border-color: var(--forest-pale);
 }
 
 .forest-button-accent {
-  background: linear-gradient(135deg, var(--accent-sun) 0%, var(--accent-sunset) 100%);
+  background: linear-gradient(135deg, var(--sunlight) 0%, var(--accent-sunset) 100%);
   color: var(--forest-deep);
 }
 
@@ -262,30 +224,31 @@ body {
    INPUTS
    ======================================== */
 
-/* Forest Input Base */
 .forest-input {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid var(--earth-sand);
-  border-radius: 16px;
-  padding: 1rem 1.25rem;
+  background: rgba(255, 253, 247, 0.96);
+  border: 1.5px solid var(--earth-sand);
+  border-radius: 14px;
+  padding: 0.875rem 1.125rem;
   font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   color: var(--forest-deep);
-  transition: all 0.3s ease;
-  box-shadow: inset 0 2px 4px rgba(26, 61, 46, 0.05);
+  transition: all 0.25s ease;
+  box-shadow: inset 0 1px 3px rgba(100, 70, 40, 0.04);
+  width: 100%;
 }
 
 .forest-input:focus {
   outline: none;
   border-color: var(--forest-light);
-  box-shadow: 
-    0 0 0 4px rgba(143, 191, 163, 0.2),
-    inset 0 2px 4px rgba(26, 61, 46, 0.05);
+  background: rgba(255, 255, 252, 1);
+  box-shadow:
+    0 0 0 3px rgba(138, 184, 154, 0.22),
+    inset 0 1px 3px rgba(100, 70, 40, 0.04);
 }
 
 .forest-input::placeholder {
   color: var(--earth-wood);
-  opacity: 0.6;
+  opacity: 0.55;
 }
 
 /* ========================================
@@ -293,26 +256,19 @@ body {
    ======================================== */
 
 @utility forest-nav {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(143, 191, 163, 0.2);
-  box-shadow: 0 1px 3px rgba(26, 61, 46, 0.05);
+  background: rgba(255, 253, 247, 0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(195, 175, 145, 0.2);
+  box-shadow: 0 1px 10px rgba(100, 70, 40, 0.06);
 }
 
-.dark .forest-nav {
-  background: rgba(15, 31, 24, 0.95);
-  border-color: rgba(143, 179, 163, 0.15);
-}
-
-/* Forest Nav Item */
 .forest-nav-item {
-  padding: 0.75rem 1.25rem;
+  padding: 0.625rem 1.125rem;
   border-radius: 50px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--forest-mid);
-  transition: all 0.3s ease;
-  position: relative;
+  transition: all 0.25s ease;
 }
 
 .forest-nav-item:hover {
@@ -323,74 +279,37 @@ body {
 .forest-nav-item-active {
   background: linear-gradient(135deg, var(--forest-mid) 0%, var(--forest-light) 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(26, 61, 46, 0.25);
+  box-shadow: 0 3px 10px rgba(61, 122, 84, 0.25);
 }
 
 /* ========================================
-   GRASS SWAY ANIMATION
+   ANIMATIONS
    ======================================== */
 
-@keyframes grassSway {
-  0%, 100% {
-    transform: rotate(0deg) translateX(0);
-  }
-  25% {
-    transform: rotate(2deg) translateX(2px);
-  }
-  50% {
-    transform: rotate(0deg) translateX(0);
-  }
-  75% {
-    transform: rotate(-2deg) translateX(-2px);
-  }
-}
-
-@keyframes grassSwayGentle {
-  0%, 100% {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(1.5deg);
-  }
-}
-
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes breathe {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.04); opacity: 1; }
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
-@utility animate-grass-sway {
-  animation: grassSway 4s ease-in-out infinite;
-  transform-origin: bottom center;
+@keyframes grassSway {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  25% { transform: rotate(2deg) translateX(2px); }
+  75% { transform: rotate(-2deg) translateX(-2px); }
 }
 
-@utility animate-grass-sway-gentle {
-  animation: grassSwayGentle 6s ease-in-out infinite;
-  transform-origin: bottom center;
+@keyframes grassSwayGentle {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(1.5deg); }
 }
 
 @utility animate-float {
@@ -412,6 +331,16 @@ body {
   animation: shimmer 3s ease-in-out infinite;
 }
 
+@utility animate-grass-sway {
+  animation: grassSway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@utility animate-grass-sway-gentle {
+  animation: grassSwayGentle 6s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
 /* ========================================
    DECORATIVE ELEMENTS
    ======================================== */
@@ -422,22 +351,21 @@ body {
   background: linear-gradient(135deg, var(--leaf-sage) 0%, var(--leaf-moss) 100%);
   border-radius: 0 50% 0 50%;
   transform: rotate(-45deg);
-  box-shadow: 2px 2px 8px rgba(26, 61, 46, 0.15);
+  box-shadow: 2px 2px 8px rgba(100, 70, 40, 0.12);
 }
 
 @utility forest-petal {
   width: 30px;
   height: 30px;
-  background: linear-gradient(135deg, var(--accent-rose) 0%, #f5d5d5 100%);
+  background: linear-gradient(135deg, var(--accent-rose-pale) 0%, #f8e8e0 100%);
   border-radius: 50% 0 50% 0;
   transform: rotate(45deg);
 }
 
 @utility forest-glow {
-  box-shadow: 
-    0 0 20px rgba(143, 191, 163, 0.4),
-    0 0 40px rgba(143, 191, 163, 0.2),
-    0 0 60px rgba(143, 191, 163, 0.1);
+  box-shadow:
+    0 0 20px rgba(138, 184, 154, 0.35),
+    0 0 40px rgba(138, 184, 154, 0.15);
 }
 
 /* ========================================
@@ -445,8 +373,8 @@ body {
    ======================================== */
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
@@ -463,26 +391,18 @@ body {
   background: var(--forest-light);
 }
 
-.dark ::-webkit-scrollbar-track {
-  background: var(--night-card);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: var(--forest-pale);
-}
-
 /* ========================================
    STAT CARDS
    ======================================== */
 
 @utility forest-stat {
-  background: linear-gradient(135deg, var(--leaf-dew) 0%, var(--sky-soft) 100%);
-  border-radius: 24px;
+  background: linear-gradient(135deg, var(--leaf-dew) 0%, rgba(248, 245, 238, 0.8) 100%);
+  border-radius: 20px;
   padding: 1.5rem;
-  border: 1px solid rgba(143, 191, 163, 0.3);
-  box-shadow: 
-    0 4px 6px -1px rgba(26, 61, 46, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(195, 175, 145, 0.22);
+  box-shadow:
+    0 2px 8px rgba(100, 70, 40, 0.05),
+    inset 0 1px 0 rgba(255, 252, 242, 0.8);
 }
 
 @utility forest-stat-mint {
@@ -490,15 +410,15 @@ body {
 }
 
 @utility forest-stat-sun {
-  background: linear-gradient(135deg, var(--accent-sun) 0%, var(--accent-sunset) 100%);
+  background: linear-gradient(135deg, var(--sunlight) 0%, var(--sunlight-pale) 100%);
 }
 
 @utility forest-stat-lavender {
-  background: linear-gradient(135deg, var(--accent-lavender) 0%, #e8d5f2 100%);
+  background: linear-gradient(135deg, var(--sky-mist) 0%, var(--sky-soft) 100%);
 }
 
 @utility forest-stat-rose {
-  background: linear-gradient(135deg, var(--accent-rose) 0%, #f5e0e0 100%);
+  background: linear-gradient(135deg, var(--accent-rose-pale) 0%, #f8eae8 100%);
 }
 
 /* ========================================
@@ -509,11 +429,11 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.9rem;
   background: var(--leaf-dew);
   color: var(--forest-mid);
   border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
 }
 
@@ -527,31 +447,7 @@ body {
   gap: 0.75rem;
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--earth-sand);
-}
-
-/* ========================================
-   DARK MODE TOGGLE
-   ======================================== */
-
-/* Forest Theme Toggle */
-.forest-theme-toggle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--earth-cream);
-  border: 2px solid var(--earth-sand);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.forest-theme-toggle:hover {
-  background: var(--leaf-dew);
-  border-color: var(--forest-pale);
-  transform: rotate(15deg);
+  border-bottom: 1.5px solid var(--earth-cream);
 }
 
 /* ========================================
@@ -568,7 +464,6 @@ body {
   }
 }
 
-/* Focus visible styles */
 :focus-visible {
   outline: 3px solid var(--forest-light);
   outline-offset: 2px;
@@ -580,9 +475,9 @@ body {
 
 @media (max-width: 768px) {
   .forest-card {
-    border-radius: 20px;
+    border-radius: 16px;
   }
-  
+
   .forest-button {
     padding: 0.75rem 1.5rem;
   }
