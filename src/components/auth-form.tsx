@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FirebaseError } from "firebase/app";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/components/auth-provider";
+import { useHaptics } from "@/components/haptics-provider";
 import { Leaf, Heart, Wind } from "lucide-react";
 
 type Mode = "login" | "register";
@@ -30,6 +31,7 @@ const friendlyAuthError = (error: unknown): string => {
 
 export const AuthForm = () => {
   const { login, register } = useAuth();
+  const { trigger, isSupported } = useHaptics();
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,8 +49,10 @@ export const AuthForm = () => {
       } else {
         await register(email.trim(), password);
       }
+      if (isSupported) trigger('success');
     } catch (err) {
       setError(friendlyAuthError(err));
+      if (isSupported) trigger('error');
     } finally {
       setSubmitting(false);
     }
@@ -131,7 +135,7 @@ export const AuthForm = () => {
           <div className="flex gap-2 mb-8 p-1 bg-[var(--earth-cream)] rounded-full">
             <button
               type="button"
-              onClick={() => setMode("login")}
+              onClick={() => { if (isSupported) trigger('light'); setMode("login"); }}
               className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                 mode === "login"
                   ? "bg-white text-[var(--forest-mid)] shadow-md"
@@ -142,7 +146,7 @@ export const AuthForm = () => {
             </button>
             <button
               type="button"
-              onClick={() => setMode("register")}
+              onClick={() => { if (isSupported) trigger('light'); setMode("register"); }}
               className={`flex-1 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                 mode === "register"
                   ? "bg-white text-[var(--forest-mid)] shadow-md"

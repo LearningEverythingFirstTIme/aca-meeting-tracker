@@ -49,6 +49,7 @@ import {
 } from "lucide-react";
 import { getClientDb } from "@/lib/firebase/client";
 import { useAuth } from "@/components/auth-provider";
+import { useHaptics } from "@/components/haptics-provider";
 import { Navigation } from "@/components/navigation";
 import { MeetingForm } from "@/components/meeting-form";
 import { TreasurySummary } from "@/components/treasury/treasury-summary";
@@ -228,6 +229,7 @@ const SortableDashboardSection = ({
 
 export const Dashboard = () => {
   const { user } = useAuth();
+  const { trigger, isSupported } = useHaptics();
   const db = getClientDb();
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -866,7 +868,7 @@ export const Dashboard = () => {
                       <motion.button
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
-                        onClick={() => saveCheckinEdit(entry.id)}
+                        onClick={() => { if (isSupported) trigger('success'); saveCheckinEdit(entry.id); }}
                         className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-deep)] px-3 py-1.5 text-[10px] font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                       >
                         Save
@@ -874,7 +876,7 @@ export const Dashboard = () => {
                       <motion.button
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.97 }}
-                        onClick={cancelEditingCheckin}
+                        onClick={() => { if (isSupported) trigger('light'); cancelEditingCheckin(); }}
                         className="rounded-full bg-[var(--earth-sand)] px-3 py-1.5 text-[10px] font-medium text-[var(--forest-deep)]"
                       >
                         Cancel
@@ -896,7 +898,7 @@ export const Dashboard = () => {
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => startEditingCheckin(entry)}
+                        onClick={() => { if (isSupported) trigger('light'); startEditingCheckin(entry); }}
                         className="rounded-lg border border-[var(--earth-sand)] p-1.5 text-[var(--forest-mid)] hover:bg-[var(--butter)] hover:text-[var(--earth-brown)]"
                       >
                         <Edit2 size={10} strokeWidth={2} />
@@ -904,7 +906,7 @@ export const Dashboard = () => {
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => deleteCheckin(entry.id, entry.meetingName)}
+                        onClick={() => { if (isSupported) trigger('warning'); deleteCheckin(entry.id, entry.meetingName); }}
                         className="rounded-lg border border-[var(--coral)]/30 p-1.5 text-[var(--coral)] hover:bg-[var(--coral)]/10"
                       >
                         <Trash2 size={10} strokeWidth={2} />
@@ -1020,7 +1022,7 @@ export const Dashboard = () => {
                               whileHover={{ scale: 1.03 }}
                               whileTap={{ scale: 0.97 }}
                               type="button"
-                              onClick={() => setEditingMeetingId(meeting.id)}
+                              onClick={() => { if (isSupported) trigger('light'); setEditingMeetingId(meeting.id); }}
                               className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                             >
                               <Edit2 size={12} strokeWidth={2} className="inline mr-1" /> Edit
@@ -1029,7 +1031,7 @@ export const Dashboard = () => {
                               whileHover={{ scale: 1.03 }}
                               whileTap={{ scale: 0.97 }}
                               type="button"
-                              onClick={() => void removeMeeting(meeting.id)}
+                              onClick={() => { if (isSupported) trigger('warning'); void removeMeeting(meeting.id); }}
                               className="rounded-full bg-gradient-to-r from-[var(--coral)] to-[#e8a598] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--coral)]/20"
                             >
                               <Trash2 size={12} strokeWidth={2} className="inline mr-1" /> Del
@@ -1039,7 +1041,7 @@ export const Dashboard = () => {
                               whileTap={!todaysCheckin ? { scale: 0.97 } : {}}
                               type="button"
                               disabled={todaysCheckin || pendingCheckinId === meeting.id}
-                              onClick={() => void checkIn(meeting)}
+                              onClick={() => { if (isSupported) trigger('success'); void checkIn(meeting); }}
                               className={`rounded-full px-4 py-2 text-xs font-medium shadow-md transition-all ${
                                 todaysCheckin
                                   ? "bg-[var(--forest-mid)] text-white shadow-[var(--forest-mid)]/20"
@@ -1284,7 +1286,7 @@ export const Dashboard = () => {
                       whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
                       type="button"
-                      onClick={() => void saveLayout()}
+                      onClick={() => { if (isSupported) trigger('success'); void saveLayout(); }}
                       disabled={isSavingLayout}
                       className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-deep)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                     >
@@ -1294,7 +1296,7 @@ export const Dashboard = () => {
                       whileHover={{ scale: 1.03, y: -1 }}
                       whileTap={{ scale: 0.97 }}
                       type="button"
-                      onClick={cancelLayoutEditing}
+                      onClick={() => { if (isSupported) trigger('light'); cancelLayoutEditing(); }}
                       disabled={isSavingLayout}
                       className="rounded-full bg-[var(--earth-sand)] px-4 py-2 text-xs font-medium text-[var(--forest-deep)]"
                     >
@@ -1306,7 +1308,7 @@ export const Dashboard = () => {
                     whileHover={{ scale: 1.03, y: -1 }}
                     whileTap={{ scale: 0.97 }}
                     type="button"
-                    onClick={beginLayoutEditing}
+                    onClick={() => { if (isSupported) trigger('light'); beginLayoutEditing(); }}
                     className="rounded-full bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-deep)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--forest-mid)]/20"
                   >
                     <LayoutGrid size={14} strokeWidth={2} className="inline mr-1" /> Edit Layout

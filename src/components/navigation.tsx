@@ -5,10 +5,12 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Home, DollarSign, BookOpen, LogOut, Heart, ClipboardList, Leaf } from "lucide-react";
 import { useAuth } from "@/components/auth-provider";
+import { useHaptics } from "@/components/haptics-provider";
 
 export const Navigation = () => {
   const pathname = usePathname();
   const { logout, user } = useAuth();
+  const { trigger, isSupported } = useHaptics();
 
   const navItems = [
     { href: "/", label: "Meetings", icon: Home },
@@ -42,6 +44,7 @@ export const Navigation = () => {
                   <motion.div
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={() => { if (isSupported) trigger('light'); }}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 ${
                       isActive 
                         ? "bg-gradient-to-r from-[var(--forest-mid)] to-[var(--forest-light)] text-white shadow-lg shadow-[var(--forest-mid)]/30" 
@@ -63,6 +66,7 @@ export const Navigation = () => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => { if (isSupported) trigger('light'); }}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-[var(--accent-rose)] to-[var(--accent-sunset)] text-[var(--forest-deep)] font-semibold text-sm shadow-md hover:shadow-lg transition-shadow"
               >
                 <Heart size={18} fill="currentColor" />
@@ -74,7 +78,7 @@ export const Navigation = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => void logout()}
+              onClick={() => { if (isSupported) trigger('warning'); void logout(); }}
               className="flex items-center gap-2 px-4 py-2.5 rounded-full border-2 border-[var(--earth-sand)] text-[var(--forest-mid)] font-semibold text-sm hover:bg-[var(--earth-sand)] transition-colors"
             >
               <LogOut size={18} />
@@ -89,6 +93,7 @@ export const Navigation = () => {
           <Link href="/">
             <motion.div
               whileTap={{ scale: 0.95 }}
+              onClick={() => { if (isSupported) trigger('light'); }}
               className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--forest-mid)] to-[var(--leaf-moss)] flex items-center justify-center"
             >
               <Leaf className="w-5 h-5 text-white" />
@@ -103,6 +108,7 @@ export const Navigation = () => {
                 <Link key={item.href} href={item.href}>
                   <motion.div
                     whileTap={{ scale: 0.9 }}
+                    onClick={() => { if (isSupported) trigger('light'); }}
                     className={`w-11 h-11 rounded-full flex items-center justify-center ${
                       isActive 
                         ? "bg-gradient-to-br from-[var(--forest-mid)] to-[var(--forest-light)] text-white shadow-md" 
@@ -121,6 +127,7 @@ export const Navigation = () => {
             <Link href="/help">
               <motion.div
                 whileTap={{ scale: 0.9 }}
+                onClick={() => { if (isSupported) trigger('light'); }}
                 className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--accent-rose)] to-[var(--accent-sunset)] flex items-center justify-center"
               >
                 <Heart size={18} fill="white" className="text-white" />
@@ -129,7 +136,7 @@ export const Navigation = () => {
 
             <motion.button
               whileTap={{ scale: 0.9 }}
-              onClick={() => void logout()}
+              onClick={() => { if (isSupported) trigger('warning'); void logout(); }}
               className="w-10 h-10 rounded-full bg-[var(--earth-cream)] flex items-center justify-center text-[var(--forest-mid)]"
             >
               <LogOut size={18} />
