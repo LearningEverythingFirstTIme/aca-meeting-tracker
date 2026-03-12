@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { getClientDb } from "@/lib/firebase/client";
 import { useAuth } from "@/components/auth-provider";
+import { useHaptics } from "@/components/haptics-provider";
 import { Navigation } from "@/components/navigation";
 import { MeetingForm } from "@/components/meeting-form";
 import { TreasurySummary } from "@/components/treasury/treasury-summary";
@@ -121,6 +122,7 @@ const weekdayLabels = ["MON", "WED", "FRI"];
 
 export const Dashboard = () => {
   const { user } = useAuth();
+  const { trigger, isSupported } = useHaptics();
   const db = getClientDb();
   const [meetings, setMeetings] = useState<Meeting[]>([]);
   const [checkins, setCheckins] = useState<Checkin[]>([]);
